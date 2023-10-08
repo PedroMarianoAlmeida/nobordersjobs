@@ -1,3 +1,5 @@
+import RegisterUserForm from "@/components/RegisterUserForm";
+
 const RegisterUserPage = () => {
   return (
     <div className="hero min-h-screen bg-base-200">
@@ -10,25 +12,7 @@ const RegisterUserPage = () => {
           </p>
         </div>
         <div className="card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
-          <form className="card-body">
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">
-                  Check Username availabilities
-                </span>
-              </label>
-              <input
-                type="text"
-                placeholder="username"
-                className="input input-bordered"
-                required
-              />
-            </div>
-
-            <div className="form-control mt-6">
-              <button className="btn btn-primary">Register</button>
-            </div>
-          </form>
+          <RegisterUserForm />
         </div>
       </div>
     </div>
