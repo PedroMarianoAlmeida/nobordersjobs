@@ -1,14 +1,28 @@
-import { cookies } from "next/headers";
 import { getServerSession } from "next-auth";
+import { getUserNameByEmail } from "@/services/dataBaseService";
 
 export const userNameHandler = async (currentPath: string) => {
-  const cookieStore = cookies();
   const session = await getServerSession();
-  const userName = cookieStore.get("userName");
 
   const email = session?.user?.email;
-  //Have an user is essential to all logged pages (because I don't want to use email as a key)
-  if (!userName && email && currentPath !== "register-user") {
+
+  let userName;
+  if (email !== undefined && email !== null) {
+    const dbUserName = await getUserNameByEmail(email);
+    if (dbUserName.success) {
+      userName = dbUserName.userName;
+      // TODO: Add the username in a cookie to be easy to access it
+    }
+  }
+
+  // Have an user is essential to all logged pages (because I don't want to use email as a key)
+  // So if the user is logged, so it is need had an user name (or the user can logout and user as anonymous)
+  if (
+    userName === undefined &&
+    email !== undefined &&
+    email !== null &&
+    currentPath !== "register-user"
+  ) {
     return { shouldRedirect: true, destination: "/register-user" };
   }
 
