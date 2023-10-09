@@ -1,23 +1,18 @@
 import { NoBorderJobsUserNameRow } from "@/types/databaseTypes";
+import {
+  DefaultErrorResponse,
+  DefaultSuccessResponse,
+  defaultErrorSanitizer,
+} from "@/types/errorHandler";
 import { sql } from "@vercel/postgres";
 
-interface GetUserNameByEmailSuccessResponse {
-  success: true;
+interface GetUserNameByEmailSuccessResponse extends DefaultSuccessResponse {
   userName: string;
 }
 
-interface GetUserNameByEmailFailureResponse {
-  success: false;
-  message: string;
-}
-
-type GetUserNameByEmailResponse =
-  | GetUserNameByEmailSuccessResponse
-  | GetUserNameByEmailFailureResponse;
-
 export const getUserNameByEmail = async (
   email: string
-): Promise<GetUserNameByEmailResponse> => {
+): Promise<GetUserNameByEmailSuccessResponse | DefaultErrorResponse> => {
   // To do: Encrypt email (to send to database and than here to fetch it)
   try {
     const { rows }: { rows: NoBorderJobsUserNameRow[] } =
@@ -26,9 +21,6 @@ export const getUserNameByEmail = async (
     if (rows.length === 0) throw new Error("No user found");
     return { success: true, userName: rows[0].Username };
   } catch (error) {
-    let message = "Unknown Error";
-    if (error instanceof Error) message = error.message;
-
-    return { success: false, message };
+    return defaultErrorSanitizer(error);
   }
 };
