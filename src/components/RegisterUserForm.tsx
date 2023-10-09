@@ -1,7 +1,10 @@
 "use client";
 import { useState, useEffect, ChangeEvent } from "react";
 import kebabCase from "lodash.kebabcase";
-import { checkUserNameExists } from "@/services/dataBaseService";
+import {
+  checkUserNameExists,
+  postNewUserName,
+} from "@/services/dataBaseService";
 
 const RegisterUserForm = () => {
   const [typedUsername, setTypedUsername] = useState("");
@@ -55,7 +58,7 @@ const RegisterUserForm = () => {
     setSanitizedUsername(kebabCase(e.target.value));
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!allowSubmit) {
       if (errorMessage === "") {
@@ -63,7 +66,15 @@ const RegisterUserForm = () => {
       }
       return;
     }
-    console.log("SUBMIT");
+    const res = await postNewUserName(sanitizedUsername);
+    if (res.success) {
+      // TODO: Add a redirect to the user page
+      setErrorMessage("Welcome to the club!"); //This is not an error, but should be shown as a success message
+    } else {
+      setErrorMessage("Error submitting username, try again later");
+    }
+    setSanitizedUsername("");
+    setTypedUsername("");
   };
 
   return (

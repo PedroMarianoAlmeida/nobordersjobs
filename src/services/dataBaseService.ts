@@ -1,4 +1,6 @@
 "use server";
+import { getServerSession } from "next-auth";
+
 import { NoBorderJobsUserNameRow } from "@/types/databaseTypes";
 import {
   DefaultErrorResponse,
@@ -39,6 +41,22 @@ export const checkUserNameExists = async (
 
     if (rows.length === 0) return { success: true, exists: false };
     return { success: true, exists: true };
+  } catch (error) {
+    return defaultErrorSanitizer(error);
+  }
+};
+
+export const postNewUserName = async (username: string) => {
+  const session = await getServerSession();
+  const email = session?.user?.email;
+  if (email === undefined || email === null)
+    throw new Error("Please login to register a new username");
+  try {
+    const { rowCount }: { rowCount: number } =
+      await sql`  INSERT INTO NoBorderJobsUserName (emailencrypted, username) VALUES (${email}, ${username});`;
+      
+    if (rowCount === 1) return { success: true };
+    throw new Error("Error inserting new username");
   } catch (error) {
     return defaultErrorSanitizer(error);
   }

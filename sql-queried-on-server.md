@@ -16,9 +16,16 @@ Username TEXT UNIQUE NOT NULL
 
 ## Creating a user directly on DB
 
-This query is a manual way to create a Username given an email
+This query is a manual way to create a Username given an email (now implemented in postNewUserName function)
 
 ```
   INSERT INTO NoBorderJobsUserName (emailencrypted, username)
   VALUES ('mym@email.com', 'admin');
+```
+
+## Deleting a user
+
+```
+DELETE FROM NoBorderJobsUserName
+WHERE id = 5;
 ```
