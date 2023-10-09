@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, ChangeEvent } from "react";
 import kebabCase from "lodash.kebabcase";
+import { checkUserNameExists } from "@/services/dataBaseService";
 
 const RegisterUserForm = () => {
   const [typedUsername, setTypedUsername] = useState("");
@@ -9,10 +10,25 @@ const RegisterUserForm = () => {
   const [errorMessage, setMessage] = useState("");
   const [sanitizedNameMessage, setSanitizedNameMessage] = useState(<></>);
 
+  const userNameExistChecker = async () => {
+    setMessage("Checking username availability...");
+    const res = await checkUserNameExists(sanitizedUsername);
+    if (res.success) {
+      const { exists } = res;
+      if (exists) {
+        setMessage("Username already exists, try another one");
+      } else {
+        setMessage("Username available!");
+      }
+    } else setMessage("Error checking username availability, try again later");
+  };
+
   useEffect(() => {
     if (sanitizedUsername !== "" && sanitizedUsername.length < 3) {
       setMessage("Username must be at least 3 characters long");
-    } else setMessage("");
+    } else {
+      userNameExistChecker();
+    }
     if (sanitizedUsername !== typedUsername) {
       setSanitizedNameMessage(
         <span className="label-text-alt">
