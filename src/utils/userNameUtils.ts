@@ -3,7 +3,6 @@ import { getUserNameByEmail } from "@/services/dataBaseService";
 
 export const userNameHandler = async (currentPath: string) => {
   const session = await getServerSession();
-
   const email = session?.user?.email;
 
   let userName;
