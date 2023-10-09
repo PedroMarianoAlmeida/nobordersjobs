@@ -19,12 +19,16 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  type ChildType = React.ReactElement & {
+    props: { childProp: { segment: string } };
+  };
+  const child = children as ChildType;
+  const currentPath = child.props.childProp.segment;
 
-  const currentPath = children.props.childProp.segment
   const { shouldRedirect, destination } = await userNameHandler(currentPath);
 
   if (shouldRedirect) redirect(destination);
-  
+
   return (
     <html lang="en">
       <body className={inter.className}>
