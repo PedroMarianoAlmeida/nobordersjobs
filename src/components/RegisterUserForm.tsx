@@ -7,25 +7,35 @@ const RegisterUserForm = () => {
   const [typedUsername, setTypedUsername] = useState("");
   const [sanitizedUsername, setSanitizedUsername] = useState("");
 
-  const [errorMessage, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const [sanitizedNameMessage, setSanitizedNameMessage] = useState(<></>);
 
+  const [allowSubmit, setAllowSubmit] = useState(false);
+
   const userNameExistChecker = async () => {
-    setMessage("Checking username availability...");
+    setErrorMessage("Checking username availability...");
     const res = await checkUserNameExists(sanitizedUsername);
     if (res.success) {
       const { exists } = res;
       if (exists) {
-        setMessage("Username already exists, try another one");
+        setErrorMessage("Username already exists, try another one");
+        setAllowSubmit(false);
       } else {
-        setMessage("Username available!");
+        setErrorMessage("Username available!");
+        setAllowSubmit(true);
       }
-    } else setMessage("Error checking username availability, try again later");
+    } else {
+      setErrorMessage("Error checking username availability, try again later");
+      setAllowSubmit(false);
+    }
   };
 
   useEffect(() => {
-    if (sanitizedUsername !== "" && sanitizedUsername.length < 3) {
-      setMessage("Username must be at least 3 characters long");
+    if (sanitizedUsername.length < 3) {
+      if (typedUsername !== "") {
+        setErrorMessage("Username must be at least 3 characters long");
+      }
+      setAllowSubmit(false);
     } else {
       userNameExistChecker();
     }
@@ -45,8 +55,19 @@ const RegisterUserForm = () => {
     setSanitizedUsername(kebabCase(e.target.value));
   };
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!allowSubmit) {
+      if (errorMessage === "") {
+        setErrorMessage("You cannot submit"); //Check if this is ever shown (if positive, it is something wrong with validation)
+      }
+      return;
+    }
+    console.log("SUBMIT");
+  };
+
   return (
-    <form className="card-body">
+    <form className="card-body" onSubmit={handleSubmit}>
       <div className="form-control">
         <label className="label">
           <span className="label-text">Check Username availabilities</span>
@@ -66,7 +87,9 @@ const RegisterUserForm = () => {
       </div>
 
       <div className="form-control mt-6">
-        <button className="btn btn-primary">Register</button>
+        <button className="btn btn-primary" disabled={!allowSubmit}>
+          Register
+        </button>
       </div>
     </form>
   );
