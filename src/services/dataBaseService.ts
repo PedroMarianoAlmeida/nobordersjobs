@@ -19,10 +19,11 @@ export const getUserNameByEmail = async (
   // To do: Encrypt email (to send to database and than here to fetch it)
   try {
     const { rows }: { rows: NoBorderJobsUserNameRow[] } =
-      await sql`SELECT Username FROM noborderjobsusername WHERE Emailencrypted = ${email};`;
+      await sql`SELECT username FROM noborderjobsusername WHERE emailencrypted = ${email};`;
 
     if (rows.length === 0) throw new Error("No user found");
-    return { success: true, userName: rows[0].Username };
+
+    return { success: true, userName: rows[0].username };
   } catch (error) {
     return defaultErrorSanitizer(error);
   }
@@ -54,7 +55,7 @@ export const postNewUserName = async (username: string) => {
   try {
     const { rowCount }: { rowCount: number } =
       await sql`  INSERT INTO NoBorderJobsUserName (emailencrypted, username) VALUES (${email}, ${username});`;
-      
+
     if (rowCount === 1) return { success: true };
     throw new Error("Error inserting new username");
   } catch (error) {

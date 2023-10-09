@@ -1,5 +1,5 @@
 export interface NoBorderJobsUserNameRow {
   Id: string;
-  Emailencrypted: string;
-  Username: string;
+  emailencrypted: string;
+  username: string;
 }
