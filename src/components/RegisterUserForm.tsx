@@ -1,16 +1,33 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
+import kebabCase from "lodash.kebabcase";
 
 const RegisterUserForm = () => {
   const [typedUsername, setTypedUsername] = useState("");
-  const [message, setMessage] = useState("");
+  const [sanitizedUsername, setSanitizedUsername] = useState("");
+
+  const [errorMessage, setMessage] = useState("");
+  const [sanitizedNameMessage, setSanitizedNameMessage] = useState(<></>);
 
   useEffect(() => {
-    // TODO: add a debounce
-    if (typedUsername.length < 3) {
+    if (sanitizedUsername !== "" && sanitizedUsername.length < 3) {
       setMessage("Username must be at least 3 characters long");
     } else setMessage("");
+    if (sanitizedUsername !== typedUsername) {
+      setSanitizedNameMessage(
+        <span className="label-text-alt">
+          Username will be{" "}
+          <span className="font-bold">{sanitizedUsername}</span>
+        </span>
+      );
+    } else setSanitizedNameMessage(<></>);
   }, [typedUsername]);
+
+  const updateUsername = (e: ChangeEvent<HTMLInputElement>) => {
+    // TODO: add a debounce
+    setTypedUsername(e.target.value);
+    setSanitizedUsername(kebabCase(e.target.value));
+  };
 
   return (
     <form className="card-body">
@@ -24,10 +41,11 @@ const RegisterUserForm = () => {
           className="input input-bordered"
           required
           value={typedUsername}
-          onChange={(e) => setTypedUsername(e.target.value)}
+          onChange={updateUsername}
         />
+        <label className="label">{sanitizedNameMessage}</label>
         <label className="label">
-          <span className="label-text-alt">{message}</span>
+          <span className="label-text-alt">{errorMessage}</span>
         </label>
       </div>
 
