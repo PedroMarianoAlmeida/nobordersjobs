@@ -2,6 +2,7 @@ import { getServerSession } from "next-auth";
 import { getUserNameByEmail } from "@/services/dataBaseService";
 
 export const userNameHandler = async (currentPath: string) => {
+  console.log("userNameHandler");
   const session = await getServerSession();
 
   const email = session?.user?.email;
@@ -23,6 +24,7 @@ export const userNameHandler = async (currentPath: string) => {
     email !== null &&
     currentPath !== "register-user"
   ) {
+    console.log("redirect", { userName, email });
     return { shouldRedirect: true, destination: "/register-user" };
   }
 
