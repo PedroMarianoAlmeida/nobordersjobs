@@ -38,7 +38,7 @@ export const checkUserNameExists = async (
 ): Promise<CheckUsernameSuccessResponse | DefaultErrorResponse> => {
   try {
     const { rows }: { rows: NoBorderJobsUserNameRow[] } =
-      await sql`SELECT Username FROM noborderjobsusername WHERE Username = ${username};`;
+      await sql`SELECT username FROM noborderjobsusername WHERE username = ${username};`;
 
     if (rows.length === 0) return { success: true, exists: false };
     return { success: true, exists: true };
@@ -54,7 +54,7 @@ export const postNewUserName = async (username: string) => {
     throw new Error("Please login to register a new username");
   try {
     const { rowCount }: { rowCount: number } =
-      await sql`  INSERT INTO NoBorderJobsUserName (emailencrypted, username) VALUES (${email}, ${username});`;
+      await sql`INSERT INTO NoBorderJobsUserName (emailencrypted, username) VALUES (${email}, ${username});`;
 
     if (rowCount === 1) return { success: true };
     throw new Error("Error inserting new username");

@@ -1,10 +1,10 @@
 "use client";
 import { useState, useEffect, ChangeEvent } from "react";
-import kebabCase from "lodash.kebabcase";
 import {
   checkUserNameExists,
   postNewUserName,
 } from "@/services/dataBaseService";
+import { urlFormatter } from "@/utils/text";
 
 const RegisterUserForm = () => {
   const [typedUsername, setTypedUsername] = useState("");
@@ -55,7 +55,7 @@ const RegisterUserForm = () => {
   const updateUsername = (e: ChangeEvent<HTMLInputElement>) => {
     // TODO: add a debounce
     setTypedUsername(e.target.value);
-    setSanitizedUsername(kebabCase(e.target.value));
+    setSanitizedUsername(urlFormatter(e.target.value));
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
