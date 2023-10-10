@@ -5,7 +5,7 @@ export default async function Home() {
     <main>
       <h1>Home Page</h1>
       <Link href="/post-job">
-        <button className="btn btn-primary">Post Job</button>
+        <button className="btn btn-secondary">Post Job</button>
       </Link>
     </main>
   );
