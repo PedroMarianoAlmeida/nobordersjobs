@@ -1,13 +1,12 @@
-import SignInAndOutTest from "@/components/SignInAndOutTest";
-import { getServerSession } from "next-auth";
+import Link from "next/link";
 
 export default async function Home() {
-  const session = await getServerSession();
-
   return (
     <main>
       <h1>Home Page</h1>
-      <SignInAndOutTest />
+      <Link href="/post-job">
+        <button className="btn btn-primary">Post Job</button>
+      </Link>
     </main>
   );
 }
