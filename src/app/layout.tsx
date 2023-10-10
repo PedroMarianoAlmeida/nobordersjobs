@@ -7,6 +7,7 @@ import "./globals.css";
 import NavBar from "@/components/Navbar";
 import ClientSessionProvider from "@/components/ClientSessionProvider";
 import { userNameHandler } from "@/utils/userNameUtils";
+import { getCurrentPath } from "@/utils/routeUtils";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -19,12 +20,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  type ChildType = React.ReactElement & {
-    props: { childProp: { segment: string } };
-  };
-  const child = children as ChildType;
-  const currentPath = child.props.childProp.segment;
-
+  const currentPath = getCurrentPath(children);
   const { shouldRedirect, destination } = await userNameHandler(currentPath);
 
   if (shouldRedirect) redirect(destination);
