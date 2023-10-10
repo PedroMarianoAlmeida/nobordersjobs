@@ -3,3 +3,8 @@ export interface NoBorderJobsUserNameRow {
   emailencrypted: string;
   username: string;
 }
+
+export interface NoBorderJobsCuratorRow {
+  id: string;
+  username: string;
+}

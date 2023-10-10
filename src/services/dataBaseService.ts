@@ -1,13 +1,17 @@
 "use server";
 import { getServerSession } from "next-auth";
 
-import { NoBorderJobsUserNameRow } from "@/types/databaseTypes";
+import {
+  NoBorderJobsCuratorRow,
+  NoBorderJobsUserNameRow,
+} from "@/types/databaseTypes";
 import {
   DefaultErrorResponse,
   DefaultSuccessResponse,
   defaultErrorSanitizer,
 } from "@/types/errorHandler";
 import { sql } from "@vercel/postgres";
+import { userSanitizer } from "@/utils/userNameUtils";
 
 interface GetUserNameByEmailSuccessResponse extends DefaultSuccessResponse {
   userName: string;
@@ -48,16 +52,30 @@ export const checkUserNameExists = async (
 };
 
 export const postNewUserName = async (username: string) => {
-  const session = await getServerSession();
-  const email = session?.user?.email;
-  if (email === undefined || email === null)
-    throw new Error("Please login to register a new username");
+  const { email } = await userSanitizer();
+
+  if (!email) throw new Error("Please login to register a new username");
   try {
     const { rowCount }: { rowCount: number } =
       await sql`INSERT INTO NoBorderJobsUserName (emailencrypted, username) VALUES (${email}, ${username});`;
 
     if (rowCount === 1) return { success: true };
     throw new Error("Error inserting new username");
+  } catch (error) {
+    return defaultErrorSanitizer(error);
+  }
+};
+
+export const checkUserIsCurator = async () => {
+  const { isValid, userName } = await userSanitizer();
+  if (!isValid) return { success: true, isCurator: false };
+
+  try {
+    const { rows }: { rows: NoBorderJobsCuratorRow[] } =
+      await sql`SELECT username FROM no_border_jobs_curators WHERE username = ${userName};`;
+
+    if (rows.length === 0) return { success: true, isCurator: false };
+    return { success: true, isCurator: true };
   } catch (error) {
     return defaultErrorSanitizer(error);
   }

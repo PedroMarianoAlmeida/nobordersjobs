@@ -1,7 +1,22 @@
 import { getServerSession } from "next-auth";
 import { getUserNameByEmail } from "@/services/dataBaseService";
 
-export const userSanitizer = async () => {
+interface UserSanitizerSuccess {
+  isValid: true;
+  email: string;
+  userName: string;
+}
+
+interface UserSanitizerError {
+  isValid: false;
+  email: string | null;
+  userName: string | null;
+}
+
+//With this types, always than isValid is true, the types of email and userName are defined
+export const userSanitizer = async (): Promise<
+  UserSanitizerSuccess | UserSanitizerError
+> => {
   const session = await getServerSession();
   const email = session?.user?.email;
 

@@ -1,7 +1,5 @@
-import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 
-import { getUserNameByEmail } from "@/services/dataBaseService";
 import RegisterUserForm from "@/components/RegisterUserForm";
 import { userSanitizer } from "@/utils/userNameUtils";
 
