@@ -1,15 +1,16 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 const PostJobForm = () => {
   const [title, setTitle] = useState("");
-  const [text, setText] = useState("");
+  const [jobBody, setJobBody] = useState("");
+  const [allowSubmit, setAllowSubmit] = useState(false);
 
   const handleChange = (value: string) => {
-    setText(value);
+    setJobBody(value);
   };
 
   const modules = {
@@ -41,10 +42,17 @@ const PostJobForm = () => {
     "image",
   ];
 
-  console.log(text);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log({ title, jobBody });
+  };
+
+  useEffect(() => {
+    setAllowSubmit(title.length > 0 && jobBody.length > 0);
+  }, [title, jobBody]);
 
   return (
-    <form className="card-body">
+    <form className="card-body" onSubmit={handleSubmit}>
       <div className="form-control">
         <label className="label">
           <span className="label-text">Job Title</span>
@@ -63,9 +71,9 @@ const PostJobForm = () => {
         <label className="label">
           <span className="label-text">Job Title</span>
         </label>
-        
+
         <ReactQuill
-          value={text}
+          value={jobBody}
           modules={modules}
           formats={formats}
           onChange={handleChange}
@@ -73,7 +81,9 @@ const PostJobForm = () => {
       </div>
 
       <div className="form-control mt-6">
-        <button className="btn btn-primary">Register</button>
+        <button className="btn btn-primary" disabled={!allowSubmit}>
+          Post
+        </button>
       </div>
     </form>
   );
