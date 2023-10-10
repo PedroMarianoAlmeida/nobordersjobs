@@ -1,6 +1,16 @@
-import { getCurrentPath } from "@/utils/routeUtils";
+import { getJoppostByBlob } from "@/services/dataBaseService";
 
-const JobDetailPage = ({ children }: { children: React.ReactNode }) => {
+const JobDetailPage = async ({
+  params: { blob },
+}: {
+  params: { blob: string };
+}) => {
+  const job = await getJoppostByBlob(blob);
+
+  if (!job.success) return <div>Job not found</div>;
+  const { title, company, body, curator, updatedAt } = job.jobpost;
+  console.log({ job });
+
   return (
     <div>
       <h1>Job Detail Page</h1>

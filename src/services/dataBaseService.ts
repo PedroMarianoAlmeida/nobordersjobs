@@ -2,6 +2,7 @@
 
 import {
   NoBorderJobsCuratorRow,
+  NoBorderJobsJobpostRow,
   NoBorderJobsUserNameRow,
 } from "@/types/databaseTypes";
 import {
@@ -103,6 +104,28 @@ export const postNewJob = async (post: {
       await sql`INSERT INTO no_border_jobs_jobspost (title, company, body, username, blob) VALUES (${title}, ${company}, ${jobBody}, ${userName}, ${blob});`;
     if (rowCount === 1) return { success: true };
     throw new Error("Error inserting new jobpost");
+  } catch (error) {
+    return defaultErrorSanitizer(error);
+  }
+};
+
+export const getJoppostByBlob = async (blob: string) => {
+  try {
+    const { rows }: { rows: NoBorderJobsJobpostRow[] } =
+      await sql`SELECT title, company, body, created_at, updated_at, username FROM no_border_jobs_jobspost WHERE blob = ${blob};`;
+
+    if (rows.length === 0) throw new Error("No jobpost found");
+    const { title, company, body, updated_at, username } = rows[0];
+    return {
+      success: true,
+      jobpost: {
+        title,
+        company,
+        body,
+        updatedAt: updated_at,
+        curator: username,
+      },
+    };
   } catch (error) {
     return defaultErrorSanitizer(error);
   }
