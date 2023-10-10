@@ -49,5 +49,25 @@ CREATE TABLE no_border_jobs_curators (
 ### Add a user
 
 ```
-INSERT INTO noborderjobscurators (username) VALUES ('desired_username');
+INSERT INTO no_border_jobs_curators (username) VALUES ('desired_username');
+```
+
+## Table Job Posts
+
+The most important table form the project... where are the actual jobs posts
+I do not create a link to the job button for now, because a lot of jobs that I see is to talk with someone on Linkedin... so this can be explained on the body (the body is Rich Text to be a nice format)
+
+### Creating the table
+
+```
+CREATE TABLE no_border_jobs_jobspost (
+    id SERIAL PRIMARY KEY NOT NULL,
+    title VARCHAR(255) NOT NULL,
+    company TEXT NOT NULL,
+    body TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW() NOT NULL,
+    updated_at TIMESTAMP DEFAULT NOW() NOT NULL,
+    username VARCHAR(255) NOT NULL REFERENCES noborderjobsusername(username),
+    BLOB TEXT NOT NULL UNIQUE
+);
 ```

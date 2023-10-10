@@ -1,5 +1,6 @@
 "use client";
 
+import { postNewJob } from "@/services/dataBaseService";
 import { useState, useEffect } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -7,7 +8,11 @@ import "react-quill/dist/quill.snow.css";
 const PostJobForm = () => {
   const [title, setTitle] = useState("");
   const [jobBody, setJobBody] = useState("");
+  const [company, setCompany] = useState("");
   const [allowSubmit, setAllowSubmit] = useState(false);
+
+  const [loading, setLoading] = useState(false);
+  const [formMessage, setFormMessage] = useState("");
 
   const handleChange = (value: string) => {
     setJobBody(value);
@@ -44,12 +49,28 @@ const PostJobForm = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log({ title, jobBody });
+    setLoading(true);
+    const res = await postNewJob({ title, jobBody, company });
+    if (res.success) {
+      setFormMessage("Job posted successfully!");
+      setTitle("");
+      setCompany("");
+      setJobBody("");
+    } else {
+      setFormMessage("Error posting job, try again later");
+    }
+    setLoading(false);
+    setAllowSubmit(true);
   };
 
   useEffect(() => {
-    setAllowSubmit(title.length > 0 && jobBody.length > 0);
-  }, [title, jobBody]);
+    setAllowSubmit(
+      title.length > 0 && jobBody.length > 0 && company.length > 0
+    );
+    if (title === "" && jobBody === "" && company === "") {
+      setFormMessage("");
+    }
+  }, [title, jobBody, company]);
 
   return (
     <form className="card-body" onSubmit={handleSubmit}>
@@ -63,6 +84,20 @@ const PostJobForm = () => {
           className="input input-bordered"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+      </div>
+
+      <div className="form-control">
+        <label className="label">
+          <span className="label-text">Company</span>
+        </label>
+        <input
+          type="text"
+          placeholder="ex.: NoBorderJobs LTDA"
+          className="input input-bordered"
+          value={company}
+          onChange={(e) => setCompany(e.target.value)}
           required
         />
       </div>
@@ -81,9 +116,10 @@ const PostJobForm = () => {
       </div>
 
       <div className="form-control mt-6">
-        <button className="btn btn-primary" disabled={!allowSubmit}>
+        <button className="btn btn-primary" disabled={!allowSubmit || loading}>
           Post
         </button>
+        <p>{formMessage}</p>
       </div>
     </form>
   );

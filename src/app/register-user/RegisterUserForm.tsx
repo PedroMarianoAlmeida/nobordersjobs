@@ -12,6 +12,7 @@ const RegisterUserForm = () => {
 
   const [errorMessage, setErrorMessage] = useState("");
   const [sanitizedNameMessage, setSanitizedNameMessage] = useState(<></>);
+  const [loading, setLoading] = useState(false);
 
   const [allowSubmit, setAllowSubmit] = useState(false);
 
@@ -66,6 +67,7 @@ const RegisterUserForm = () => {
       }
       return;
     }
+    setLoading(true);
     const res = await postNewUserName(sanitizedUsername);
     if (res.success) {
       // TODO: Add a redirect to the user page
@@ -75,6 +77,7 @@ const RegisterUserForm = () => {
     }
     setSanitizedUsername("");
     setTypedUsername("");
+    setLoading(false);
   };
 
   return (
@@ -98,7 +101,7 @@ const RegisterUserForm = () => {
       </div>
 
       <div className="form-control mt-6">
-        <button className="btn btn-primary" disabled={!allowSubmit}>
+        <button className="btn btn-primary" disabled={!allowSubmit || loading}>
           Register
         </button>
       </div>
