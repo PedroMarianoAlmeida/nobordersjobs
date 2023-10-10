@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import RegisterUserForm from "@/components/RegisterUserForm";
+import RegisterUserForm from "./RegisterUserForm";
 import { userSanitizer } from "@/utils/userNameUtils";
 
 const RegisterUserPage = async () => {
