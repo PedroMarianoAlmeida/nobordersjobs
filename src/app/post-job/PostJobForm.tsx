@@ -104,7 +104,7 @@ const PostJobForm = () => {
 
       <div className="form-control h-60">
         <label className="label">
-          <span className="label-text">Job Title</span>
+          <span className="label-text">Job Description</span>
         </label>
 
         <ReactQuill
