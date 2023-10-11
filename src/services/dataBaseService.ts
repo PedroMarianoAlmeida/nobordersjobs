@@ -102,7 +102,7 @@ export const postNewJob = async (post: {
   try {
     const { rowCount }: { rowCount: number } =
       await sql`INSERT INTO no_border_jobs_jobspost (title, company, body, username, blob) VALUES (${title}, ${company}, ${jobBody}, ${userName}, ${blob});`;
-    if (rowCount === 1) return { success: true };
+    if (rowCount === 1) return { success: true, blob };
     throw new Error("Error inserting new jobpost");
   } catch (error) {
     return defaultErrorSanitizer(error);
