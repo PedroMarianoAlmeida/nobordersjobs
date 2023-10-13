@@ -62,10 +62,13 @@ export const postNewUserName = async (username: string) => {
 
   if (!email) throw new Error("Please login to register a new username");
   try {
-    const { rowCount }: { rowCount: number } =
-      await sql`INSERT INTO NoBorderJobsUserName (emailencrypted, username) VALUES (${email}, ${username});`;
-
-    if (rowCount === 1) return { success: true };
+    const user = await prisma.user.create({
+      data: {
+        name: username,
+        email,
+      },
+    });
+    if (user !== null) return { success: true };
     throw new Error("Error inserting new username");
   } catch (error) {
     return defaultErrorSanitizer(error);
@@ -77,11 +80,30 @@ export const checkUserIsCurator = async () => {
   if (!isValid) return { success: true, isCurator: false };
 
   try {
-    const { rows }: { rows: NoBorderJobsCuratorRow[] } =
-      await sql`SELECT username FROM no_border_jobs_curators WHERE username = ${userName};`;
+    const curator = await prisma.curator.findUnique({
+      where: {
+        name: userName,
+      },
+    });
 
-    if (rows.length === 0) return { success: true, isCurator: false };
+    if (curator === null) return { success: true, isCurator: false };
     return { success: true, isCurator: true, userName };
+  } catch (error) {
+    return defaultErrorSanitizer(error);
+  }
+};
+
+export const promoteUserToCurator = async (userName: string) => {
+  try {
+    //TODO: Add a validation with the user trying to promote another user is admin (but there is not admin table yet)
+    const newCurator = await prisma.curator.create({
+      data: {
+        name: userName,
+      },
+    });
+
+    if (newCurator === null) throw new Error("Error inserting new curator");
+    return { success: true };
   } catch (error) {
     return defaultErrorSanitizer(error);
   }
