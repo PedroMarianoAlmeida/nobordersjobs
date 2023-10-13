@@ -1,17 +1,35 @@
 generator client {
   provider = "prisma-client-js"
 }
- 
+
 datasource db {
-  provider = "postgresql"
-  url = env("POSTGRES_VERCEL_PRISMA_URL") // uses connection pooling
+  provider  = "postgresql"
+  url       = env("POSTGRES_VERCEL_PRISMA_URL") // uses connection pooling
   directUrl = env("POSTGRES_VERCEL_URL_NON_POOLING") // uses a direct connection
 }
- 
+
 model User {
   id        Int      @id @default(autoincrement())
-  name      String
+  name      String   @unique
   email     String   @unique
-  image     String
   createdAt DateTime @default(now())
+  curator   Curator?
+}
+
+model Curator {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  User User @relation(fields: [name], references: [name])
+  jobsPosted Jobs[]
+}
+
+model Jobs {
+   id   Int    @id @default(autoincrement())
+   title String
+   company String
+   body String
+   blob String
+   createdAt DateTime @default(now())
+   updatedAt DateTime @default(now())
+   curator   Curator @relation(fields: [id], references: [id])
 }

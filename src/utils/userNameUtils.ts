@@ -26,7 +26,7 @@ export const userSanitizer = async (): Promise<
 
   const dbUserName = await getUserNameByEmail(email);
   if (dbUserName.success) {
-    const userName = dbUserName.userName;
+    const userName = dbUserName.user.name;
     return { isValid: true, email, userName };
     // TODO: Add the username in a cookie to be easy to access it
   } else {

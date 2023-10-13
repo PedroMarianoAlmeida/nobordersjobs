@@ -18,9 +18,12 @@ const RegisterUserForm = () => {
 
   const userNameExistChecker = async () => {
     setErrorMessage("Checking username availability...");
+
     const res = await checkUserNameExists(sanitizedUsername);
+
     if (res.success) {
       const { exists } = res;
+
       if (exists) {
         setErrorMessage("Username already exists, try another one");
         setAllowSubmit(false);

@@ -21,17 +21,16 @@ interface GetUserNameByEmailSuccessResponse extends DefaultSuccessResponse {
   userName: string;
 }
 
-export const getUserNameByEmail = async (
-  email: string
-): Promise<GetUserNameByEmailSuccessResponse | DefaultErrorResponse> => {
+export const getUserNameByEmail = async (email: string) => {
   // To do: Encrypt email (to send to database and than here to fetch it)
   try {
-    const { rows }: { rows: NoBorderJobsUserNameRow[] } =
-      await sql`SELECT username FROM noborderjobsusername WHERE emailencrypted = ${email};`;
-
-    if (rows.length === 0) throw new Error("No user found");
-
-    return { success: true, userName: rows[0].username };
+    const user = await prisma.user.findUnique({
+      where: {
+        email,
+      },
+    });
+    if (user === null) throw new Error("User not found");
+    return { success: true, user };
   } catch (error) {
     return defaultErrorSanitizer(error);
   }
@@ -45,10 +44,13 @@ export const checkUserNameExists = async (
   username: string
 ): Promise<CheckUsernameSuccessResponse | DefaultErrorResponse> => {
   try {
-    const { rows }: { rows: NoBorderJobsUserNameRow[] } =
-      await sql`SELECT username FROM noborderjobsusername WHERE username = ${username};`;
+    const user = await prisma.user.findUnique({
+      where: {
+        name: username,
+      },
+    });
 
-    if (rows.length === 0) return { success: true, exists: false };
+    if (user === null) return { success: true, exists: false };
     return { success: true, exists: true };
   } catch (error) {
     return defaultErrorSanitizer(error);
@@ -135,13 +137,13 @@ export const getJoppostByBlob = async (blob: string) => {
 };
 
 export async function prismaExample() {
-  const newUser = await prisma.user.create({
-    data: {
-      name: "Elliott",
-      email: "xelliottx@example-user.com",
-      image: "",
-    },
-  });
+  // const newUser = await prisma.user.create({
+  //   data: {
+  //     name: "Elliott",
+  //     email: "xelliottx@example-user.com",
+
+  //   },
+  // });
 
   const users = await prisma.user.findMany();
   console.log({ users });

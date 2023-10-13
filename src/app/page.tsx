@@ -2,7 +2,7 @@ import Link from "next/link";
 import { prismaExample } from "@/services/dataBaseService";
 
 export default async function Home() {
-  await prismaExample();
+  //await prismaExample();
   return (
     <main>
       <h1>Home Page</h1>
