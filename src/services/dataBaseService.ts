@@ -10,6 +10,8 @@ import {
 } from "@/types/errorHandler";
 import { userSanitizer } from "@/utils/userNameUtils";
 import { urlFormatter } from "@/utils/text";
+import { JoblistSearchParams } from "@/app/job/list/page";
+import { ELEMENTS_PER_PAGE } from "@/utils/constants";
 
 export const getUserNameByEmail = async (email: string) => {
   // To do: Encrypt email (to send to database and than here to fetch it)
@@ -152,6 +154,27 @@ export const getJoppostByBlob = async (blob: string) => {
       success: true,
       data: job,
     };
+  } catch (error) {
+    return defaultErrorSanitizer(error);
+  }
+};
+
+export const getJobList = async ({
+  page = "1",
+  title = "e",
+  company,
+  curator,
+}: JoblistSearchParams) => {
+  const pageFormatted = Number(page);
+  const offset = pageFormatted * ELEMENTS_PER_PAGE;
+  try {
+    const totalJobs = await prisma.jobs.count();
+    console.log({ totalJobs });
+    // const resCount = await sql`SELECT COUNT(*) FROM no_border_jobs_jobspost;`;
+    // const totalRows = Number(resCount.rows[0].count);
+    // const lastPage = Math.ceil(totalRows / ELEMENTS_PER_PAGE);
+
+    // if (pageFormatted > lastPage) throw new Error("Page not found");
   } catch (error) {
     return defaultErrorSanitizer(error);
   }
