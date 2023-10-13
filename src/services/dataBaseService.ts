@@ -1,5 +1,8 @@
 "use server";
 
+import { PrismaClient } from "@prisma/client";
+const prisma = new PrismaClient();
+
 import {
   NoBorderJobsCuratorRow,
   NoBorderJobsJobpostRow,
@@ -130,3 +133,16 @@ export const getJoppostByBlob = async (blob: string) => {
     return defaultErrorSanitizer(error);
   }
 };
+
+export async function prismaExample() {
+  const newUser = await prisma.user.create({
+    data: {
+      name: "Elliott",
+      email: "xelliottx@example-user.com",
+      image: "",
+    },
+  });
+
+  const users = await prisma.user.findMany();
+  console.log({ users });
+}
