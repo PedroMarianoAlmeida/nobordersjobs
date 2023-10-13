@@ -9,7 +9,12 @@ const JobDetailPage = async ({
   const job = await getJoppostByBlob(blob);
 
   if (!job.success) return <div>Job not found</div>;
-  const { title, company, body, curator, updatedAt } = job.jobpost;
+  const {
+    title,
+    company,
+    body,
+    curator: { name: curator },
+  } = job.data;
   const bodyParsed = parse(body);
 
   return (

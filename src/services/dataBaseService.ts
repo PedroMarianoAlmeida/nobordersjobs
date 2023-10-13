@@ -4,22 +4,12 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 import {
-  NoBorderJobsCuratorRow,
-  NoBorderJobsJobpostRow,
-  NoBorderJobsUserNameRow,
-} from "@/types/databaseTypes";
-import {
   DefaultErrorResponse,
   DefaultSuccessResponse,
   defaultErrorSanitizer,
 } from "@/types/errorHandler";
-import { sql } from "@vercel/postgres";
 import { userSanitizer } from "@/utils/userNameUtils";
 import { urlFormatter } from "@/utils/text";
-
-interface GetUserNameByEmailSuccessResponse extends DefaultSuccessResponse {
-  userName: string;
-}
 
 export const getUserNameByEmail = async (email: string) => {
   // To do: Encrypt email (to send to database and than here to fetch it)
@@ -87,7 +77,7 @@ export const checkUserIsCurator = async () => {
     });
 
     if (curator === null) return { success: true, isCurator: false };
-    return { success: true, isCurator: true, userName };
+    return { success: true, isCurator: true, curator };
   } catch (error) {
     return defaultErrorSanitizer(error);
   }
@@ -115,22 +105,32 @@ export const postNewJob = async (post: {
   company: string;
 }) => {
   const { title, jobBody, company } = post;
-  const curator = await checkUserIsCurator();
-  if (!curator.success || !curator.isCurator)
+  const curatorRes = await checkUserIsCurator();
+  if (
+    !curatorRes.success ||
+    !curatorRes.isCurator ||
+    curatorRes.curator === undefined
+  )
     throw new Error("You are not a curator");
 
-  const { userName } = curator;
-
   const blob = urlFormatter(
-    `${title} at ${company} by ${userName} in ${new Date()
+    `${title} at ${company} by ${curatorRes.curator.name} in ${new Date()
       .toISOString()
       .slice(0, 10)}`
   );
   try {
-    const { rowCount }: { rowCount: number } =
-      await sql`INSERT INTO no_border_jobs_jobspost (title, company, body, username, blob) VALUES (${title}, ${company}, ${jobBody}, ${userName}, ${blob});`;
-    if (rowCount === 1) return { success: true, blob };
-    throw new Error("Error inserting new jobpost");
+    const newJob = await prisma.jobs.create({
+      data: {
+        title,
+        company,
+        body: jobBody,
+        curator: { connect: { name: curatorRes.curator.name } },
+        blob,
+      },
+    });
+
+    if (newJob === null) throw new Error("Error inserting new curator");
+    return { success: true, blob };
   } catch (error) {
     return defaultErrorSanitizer(error);
   }
@@ -138,35 +138,21 @@ export const postNewJob = async (post: {
 
 export const getJoppostByBlob = async (blob: string) => {
   try {
-    const { rows }: { rows: NoBorderJobsJobpostRow[] } =
-      await sql`SELECT title, company, body, created_at, updated_at, username FROM no_border_jobs_jobspost WHERE blob = ${blob};`;
+    const job = await prisma.jobs.findUnique({
+      where: {
+        blob,
+      },
+      include: {
+        curator: true,
+      },
+    });
 
-    if (rows.length === 0) throw new Error("No jobpost found");
-    const { title, company, body, updated_at, username } = rows[0];
+    if (job === null) throw new Error("No jobpost found");
     return {
       success: true,
-      jobpost: {
-        title,
-        company,
-        body,
-        updatedAt: updated_at,
-        curator: username,
-      },
+      data: job,
     };
   } catch (error) {
     return defaultErrorSanitizer(error);
   }
 };
-
-export async function prismaExample() {
-  // const newUser = await prisma.user.create({
-  //   data: {
-  //     name: "Elliott",
-  //     email: "xelliottx@example-user.com",
-
-  //   },
-  // });
-
-  const users = await prisma.user.findMany();
-  console.log({ users });
-}
