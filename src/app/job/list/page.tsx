@@ -13,7 +13,7 @@ interface JobListPageProps {
 const JobListPage = async ({ searchParams }: JobListPageProps) => {
   const { page, title, company, curator } = searchParams;
   const jobs = await getJobList({ page, title, company, curator });
-  //console.log({ jobs });
+  console.log({ jobs });
   return (
     <>
       <h1>Job List Page</h1>

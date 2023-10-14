@@ -167,23 +167,39 @@ export const getJobList = async ({
   const pageFormatted = Number(page);
 
   try {
-    const totalJobs = await prisma.jobs.count();
-    const lastPage = Math.ceil(totalJobs / ELEMENTS_PER_PAGE);
-    console.log("getJobList", { totalJobs, lastPage });
+    // const totalJobs = await prisma.jobs.count({
+    //   where: {
+    //     title: { contains: title, mode: "insensitive" },
+    //     company: { contains: company, mode: "insensitive" },
+    //     curator: { name: { contains: curator, mode: "insensitive" } },
+    //   },
+    // });
 
-    if (pageFormatted > lastPage) throw new Error("Page not found");
-
-    console.log({ title });
+    //TO DO: A better way to pagination, the "skip" should match the criteria of the search
     const jobs = await prisma.jobs.findMany({
-      //skip: pageFormatted * ELEMENTS_PER_PAGE,
-      //take: ELEMENTS_PER_PAGE,
       where: {
         title: { contains: title, mode: "insensitive" },
         company: { contains: company, mode: "insensitive" },
-        //curator: { name: { contains: curator, mode: "insensitive" } },
+        curator: { name: { contains: curator, mode: "insensitive" } },
       },
     });
-    console.log({ jobs, length: jobs.length });
+
+    const totalJobs = jobs.length;
+    const lastPage = Math.ceil(totalJobs / ELEMENTS_PER_PAGE);
+
+    if (pageFormatted > lastPage) throw new Error("Page not found");
+
+    const initialIndexToBeInReturn = (pageFormatted - 1) * ELEMENTS_PER_PAGE;
+    const finalIndexToBeInReturn = initialIndexToBeInReturn + ELEMENTS_PER_PAGE;
+    const jobsToReturn = [...jobs].slice(
+      initialIndexToBeInReturn,
+      finalIndexToBeInReturn
+    );
+
+    return {
+      success: true,
+      data: { joblist: jobsToReturn, totalPages: lastPage },
+    };
   } catch (error) {
     return defaultErrorSanitizer(error);
   }
