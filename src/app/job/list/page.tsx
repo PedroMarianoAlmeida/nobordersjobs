@@ -1,6 +1,7 @@
 import { getJobList } from "@/services/dataBaseService";
 import JobListTable from "./JobListTable";
 import JobListPagination from "./JobListPaginations";
+import JobListForm from "./JobListForm";
 
 export interface JobListSearchParams {
   page?: string;
@@ -27,6 +28,12 @@ const JobListPage = async ({ searchParams }: JobListPageProps) => {
   return (
     <main className="flex flex-col gap-3 items-center">
       <h1>Job List</h1>
+      <JobListForm
+        page={page}
+        title={title}
+        company={company}
+        curator={curator}
+      />
       <JobListTable jobList={jobList} />
       <JobListPagination
         page={page}

@@ -9,6 +9,9 @@ export default async function Home() {
       <Link href="/job/new">
         <button className="btn btn-secondary">Post Job</button>
       </Link>
+      <Link href="/job/list">
+        <button className="btn btn-secondary">See Jobs</button>
+      </Link>
     </main>
   );
 }
