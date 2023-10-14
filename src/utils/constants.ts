@@ -1,1 +1,1 @@
-export const ELEMENTS_PER_PAGE = 2;
+export const ELEMENTS_PER_PAGE = 20;

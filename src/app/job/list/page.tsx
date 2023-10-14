@@ -25,8 +25,8 @@ const JobListPage = async ({ searchParams }: JobListPageProps) => {
   } = jobs;
 
   return (
-    <>
-      <h1>Job List Page</h1>
+    <main className="flex flex-col gap-3 items-center">
+      <h1>Job List</h1>
       <JobListTable jobList={jobList} />
       <JobListPagination
         page={page}
@@ -35,7 +35,7 @@ const JobListPage = async ({ searchParams }: JobListPageProps) => {
         company={company}
         curator={curator}
       />
-    </>
+    </main>
   );
 };
 

@@ -7,7 +7,7 @@ const JobListPage = ({
   jobList: Pick<Jobs, "company" | "title" | "blob" | "updatedAt">[];
 }) => {
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto w-11/12">
       <table className="table table-zebra">
         <thead>
           <tr>
