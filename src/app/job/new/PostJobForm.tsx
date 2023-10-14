@@ -106,13 +106,14 @@ const PostJobForm = () => {
           <label className="label">
             <span className="label-text">Job Description</span>
           </label>
-
-          <ReactQuill
-            value={jobBody}
-            modules={modules}
-            formats={formats}
-            onChange={handleChange}
-          />
+          {typeof document !== "undefined" && (
+            <ReactQuill
+              value={jobBody}
+              modules={modules}
+              formats={formats}
+              onChange={handleChange}
+            />
+          )}
         </div>
 
         <div className="form-control mt-6">
