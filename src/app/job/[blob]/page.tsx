@@ -1,4 +1,4 @@
-import { getJoppostByBlob } from "@/services/dataBaseService";
+import { getJopPostByBlob } from "@/services/dataBaseService";
 import parse from "html-react-parser";
 
 const JobDetailPage = async ({
@@ -6,7 +6,7 @@ const JobDetailPage = async ({
 }: {
   params: { blob: string };
 }) => {
-  const job = await getJoppostByBlob(blob);
+  const job = await getJopPostByBlob(blob);
 
   if (!job.success) return <div>Job not found</div>;
   const {

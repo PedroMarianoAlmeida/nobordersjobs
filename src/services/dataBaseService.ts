@@ -10,7 +10,7 @@ import {
 } from "@/types/errorHandler";
 import { userSanitizer } from "@/utils/userNameUtils";
 import { urlFormatter } from "@/utils/text";
-import { JoblistSearchParams } from "@/app/job/list/page";
+import { JobListSearchParams } from "@/app/job/list/page";
 import { ELEMENTS_PER_PAGE } from "@/utils/constants";
 
 export const getUserNameByEmail = async (email: string) => {
@@ -137,7 +137,7 @@ export const postNewJob = async (post: {
   }
 };
 
-export const getJoppostByBlob = async (blob: string) => {
+export const getJopPostByBlob = async (blob: string) => {
   try {
     const job = await prisma.jobs.findUnique({
       where: {
@@ -163,7 +163,7 @@ export const getJobList = async ({
   title,
   company,
   curator,
-}: JoblistSearchParams) => {
+}: JobListSearchParams) => {
   const pageFormatted = Number(page);
 
   try {
@@ -176,11 +176,21 @@ export const getJobList = async ({
     // });
 
     //TO DO: A better way to pagination, the "skip" should match the criteria of the search
+    prisma.jobs
     const jobs = await prisma.jobs.findMany({
       where: {
         title: { contains: title, mode: "insensitive" },
         company: { contains: company, mode: "insensitive" },
         curator: { name: { contains: curator, mode: "insensitive" } },
+      },
+      select: {
+        company: true,
+        title: true,
+        blob: true,
+        updatedAt: true,
+      },
+      orderBy: {
+        updatedAt: "desc",
       },
     });
 
@@ -198,7 +208,7 @@ export const getJobList = async ({
 
     return {
       success: true,
-      data: { joblist: jobsToReturn, totalPages: lastPage },
+      data: { jobList: jobsToReturn, totalPages: lastPage },
     };
   } catch (error) {
     return defaultErrorSanitizer(error);
