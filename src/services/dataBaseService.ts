@@ -126,11 +126,10 @@ export const postNewJob = async (post: {
         title,
         company,
         body: jobBody,
-        curator: { connect: { name: curatorRes.curator.name } },
         blob,
+        curatorId: curatorRes.curator.id,
       },
     });
-
     if (newJob === null) throw new Error("Error inserting new curator");
     return { success: true, blob };
   } catch (error) {
@@ -169,7 +168,7 @@ export const getJobList = async ({
   const offset = pageFormatted * ELEMENTS_PER_PAGE;
   try {
     const totalJobs = await prisma.jobs.count();
-    console.log({ totalJobs });
+    console.log("getJobList", { totalJobs });
     // const resCount = await sql`SELECT COUNT(*) FROM no_border_jobs_jobspost;`;
     // const totalRows = Number(resCount.rows[0].count);
     // const lastPage = Math.ceil(totalRows / ELEMENTS_PER_PAGE);

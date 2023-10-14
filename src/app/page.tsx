@@ -1,6 +1,8 @@
+import { promoteUserToCurator } from "@/services/dataBaseService";
 import Link from "next/link";
 
 export default async function Home() {
+  //await promoteUserToCurator('admin')
   return (
     <main>
       <h1>Home Page</h1>

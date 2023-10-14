@@ -31,5 +31,6 @@ model Jobs {
    blob String @unique
    createdAt DateTime @default(now())
    updatedAt DateTime @default(now())
-   curator   Curator @relation(fields: [id], references: [id])
+   curator  Curator  @relation(fields: [curatorId], references: [id])
+   curatorId Int
 }
