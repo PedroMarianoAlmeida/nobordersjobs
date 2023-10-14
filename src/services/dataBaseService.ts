@@ -160,20 +160,30 @@ export const getJoppostByBlob = async (blob: string) => {
 
 export const getJobList = async ({
   page = "1",
-  title = "e",
+  title,
   company,
   curator,
 }: JoblistSearchParams) => {
   const pageFormatted = Number(page);
-  const offset = pageFormatted * ELEMENTS_PER_PAGE;
+
   try {
     const totalJobs = await prisma.jobs.count();
-    console.log("getJobList", { totalJobs });
-    // const resCount = await sql`SELECT COUNT(*) FROM no_border_jobs_jobspost;`;
-    // const totalRows = Number(resCount.rows[0].count);
-    // const lastPage = Math.ceil(totalRows / ELEMENTS_PER_PAGE);
+    const lastPage = Math.ceil(totalJobs / ELEMENTS_PER_PAGE);
+    console.log("getJobList", { totalJobs, lastPage });
 
-    // if (pageFormatted > lastPage) throw new Error("Page not found");
+    if (pageFormatted > lastPage) throw new Error("Page not found");
+
+    console.log({ title });
+    const jobs = await prisma.jobs.findMany({
+      //skip: pageFormatted * ELEMENTS_PER_PAGE,
+      //take: ELEMENTS_PER_PAGE,
+      where: {
+        title: { contains: title, mode: "insensitive" },
+        company: { contains: company, mode: "insensitive" },
+        //curator: { name: { contains: curator, mode: "insensitive" } },
+      },
+    });
+    console.log({ jobs, length: jobs.length });
   } catch (error) {
     return defaultErrorSanitizer(error);
   }
