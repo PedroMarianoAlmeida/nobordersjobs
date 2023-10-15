@@ -20,6 +20,7 @@ model Curator {
   id   Int    @id @default(autoincrement())
   name String @unique
   User User @relation(fields: [name], references: [name])
+  profile String @default("")
   jobsPosted Jobs[]
 }
 
