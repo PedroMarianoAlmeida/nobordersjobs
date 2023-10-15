@@ -32,12 +32,6 @@ const UserMenu = () => {
           className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box absolute top-10 right-0"
         >
           <li>
-            <a>Profile</a>
-          </li>
-          <li>
-            <a>Settings</a>
-          </li>
-          <li>
             <button onClick={() => signOut()}>Logout</button>
           </li>
         </ul>

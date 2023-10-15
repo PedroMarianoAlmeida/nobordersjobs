@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 const EveryoneMenu = () => {
@@ -28,13 +29,22 @@ const EveryoneMenu = () => {
       {isOpen && (
         <ul
           tabIndex={0}
-          className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box absolute top-10 right-0"
+          className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box absolute top-10 right-0 flex flex-col items-center"
         >
           <li>
-            <a>Profile</a>
+            <Link href="/">
+              <button>Home</button>
+            </Link>
           </li>
           <li>
-            <a>Settings</a>
+            <Link href="/job/list">
+              <button>Jobs</button>
+            </Link>
+          </li>
+          <li>
+            <Link href="/about">
+              <button>About</button>
+            </Link>
           </li>
         </ul>
       )}
