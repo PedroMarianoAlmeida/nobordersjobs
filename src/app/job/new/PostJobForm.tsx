@@ -2,9 +2,9 @@
 
 import { postNewJob } from "@/services/dataBaseService";
 import { useState, useEffect } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+
 import SuccessJobActions from "./SuccessJobsActions";
+import RichTextEditor from "@/components/RichTextEditor";
 
 const PostJobForm = () => {
   const [title, setTitle] = useState("");
@@ -19,35 +19,6 @@ const PostJobForm = () => {
   const handleChange = (value: string) => {
     setJobBody(value);
   };
-
-  const modules = {
-    toolbar: [
-      [{ header: [1, 2, false] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["link", "image"],
-      ["clean"],
-    ],
-  };
-
-  const formats = [
-    "header",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-  ];
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -106,14 +77,7 @@ const PostJobForm = () => {
           <label className="label">
             <span className="label-text">Job Description</span>
           </label>
-          {typeof document !== "undefined" && (
-            <ReactQuill
-              value={jobBody}
-              modules={modules}
-              formats={formats}
-              onChange={handleChange}
-            />
-          )}
+          <RichTextEditor value={jobBody} handleChange={handleChange} />
         </div>
 
         <div className="form-control mt-6">

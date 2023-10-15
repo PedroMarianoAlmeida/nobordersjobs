@@ -42,15 +42,14 @@ const RichTextEditor = ({ value, handleChange }: RichTextEditorProps) => {
     "image",
   ];
 
+  //TODO: Add a height to the editor
   return (
     <ReactQuill
       value={value}
       modules={modules}
       formats={formats}
       onChange={handleChange}
-    >
-      <div className="rich-text" />
-    </ReactQuill>
+    />
   );
 };
 
