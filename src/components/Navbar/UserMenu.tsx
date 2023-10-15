@@ -2,9 +2,9 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
 
-const ClientSideNavbar = () => {
+const UserMenu = () => {
   const { data: session } = useSession();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
 
   if (!session || session.user === undefined)
     return (
@@ -15,7 +15,7 @@ const ClientSideNavbar = () => {
   const userImage = session.user.image;
 
   return (
-    <div>
+    <div className="relative">
       <label
         tabIndex={0}
         className="btn btn-ghost btn-circle avatar"
@@ -29,7 +29,7 @@ const ClientSideNavbar = () => {
       {isOpen && (
         <ul
           tabIndex={0}
-          className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box"
+          className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box absolute top-10 right-0"
         >
           <li>
             <a>Profile</a>
@@ -46,4 +46,4 @@ const ClientSideNavbar = () => {
   );
 };
 
-export default ClientSideNavbar;
+export default UserMenu;
