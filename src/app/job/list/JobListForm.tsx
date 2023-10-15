@@ -18,11 +18,9 @@ const JobListForm = ({
 
   useEffect(() => {
     // TODO: Add a debounce to avoid spamming the router
-    const newUrl = `${page ? `?page=${page}` : "?page=1"}${
-      title ? `&title=${title}` : ""
-    }${company ? `&company=${company}` : ""}${
-      curator ? `&curator=${curator}` : ""
-    }`;
+    const newUrl = `?page=1${title ? `&title=${title}` : ""}${
+      company ? `&company=${company}` : ""
+    }${curator ? `&curator=${curator}` : ""}`;
     router.push(newUrl);
   }, [title, company]);
 
