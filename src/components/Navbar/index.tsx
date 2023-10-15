@@ -1,10 +1,16 @@
+import Link from "next/link";
+
 import UserMenu from "./UserMenu";
 
 const NavBar = () => {
   return (
     <div className="navbar bg-base-100">
       <div className="flex-1">
-        <a className="btn btn-ghost normal-case text-xl">No Border Jobs</a>
+        <Link href="/">
+          <button className="btn btn-ghost normal-case text-xl">
+            No Border Jobs
+          </button>
+        </Link>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end flex gap-5">
@@ -24,7 +30,6 @@ const NavBar = () => {
               ></path>
             </svg>
           </button>
-         
         </div>
       </div>
     </div>
