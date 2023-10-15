@@ -18,10 +18,8 @@ const CuratorEditDescriptionPage = async () => {
   return (
     <main>
       <h1>Curator Edit Description</h1>
-      <CuratorEditDescriptionForm
-        name={name}
-        currentProfile={profile}
-      />
+
+      <CuratorEditDescriptionForm name={name} currentProfile={profile} />
     </main>
   );
 };
