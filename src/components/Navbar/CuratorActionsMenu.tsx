@@ -20,11 +20,18 @@ const PostJobButton = () => {
   if (!isCurator) return null;
 
   return (
-    <li>
-      <Link href="/job/new">
-        <button>Post Job</button>
-      </Link>
-    </li>
+    <>
+      <li>
+        <Link href="/job/new">
+          <button>Post Job</button>
+        </Link>
+      </li>
+      <li>
+        <Link href="/curator/edit-description">
+          <button>Edit Profile</button>
+        </Link>
+      </li>
+    </>
   );
 };
 
