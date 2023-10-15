@@ -1,6 +1,7 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
+import PostJobButton from "./PostJobButton";
 
 const UserMenu = () => {
   const { data: session } = useSession();
@@ -34,6 +35,7 @@ const UserMenu = () => {
           <li>
             <button onClick={() => signOut()}>Logout</button>
           </li>
+          <PostJobButton />
         </ul>
       )}
     </div>
