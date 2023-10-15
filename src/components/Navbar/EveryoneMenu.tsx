@@ -29,7 +29,7 @@ const EveryoneMenu = () => {
       {isOpen && (
         <ul
           tabIndex={0}
-          className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box absolute top-10 right-0 flex flex-col items-center"
+          className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box absolute top-10 right-0 w-28 flex flex-col items-center"
         >
           <li>
             <Link href="/">
