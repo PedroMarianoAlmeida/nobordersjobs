@@ -1,6 +1,5 @@
 import { getJobList } from "@/services/dataBaseService";
-import JobListTable from "./JobListTable";
-import JobListPagination from "./JobListPaginations";
+import JobListAndPagination from "./JobListAndPagination";
 import JobListForm from "./JobListForm";
 
 export interface JobListSearchParams {
@@ -17,14 +16,6 @@ const JobListPage = async ({ searchParams }: JobListPageProps) => {
   const { page, title, company, curator } = searchParams;
   const jobs = await getJobList({ page, title, company, curator });
 
-  if (!jobs.success) {
-    return <h1>Error fetching jobs</h1>;
-  }
-
-  const {
-    data: { jobList, totalPages },
-  } = jobs;
-
   return (
     <main className="flex flex-col gap-3 items-center">
       <h1>Job List</h1>
@@ -34,14 +25,15 @@ const JobListPage = async ({ searchParams }: JobListPageProps) => {
         company={company}
         curator={curator}
       />
-      <JobListTable jobList={jobList} />
-      <JobListPagination
-        page={page}
-        totalPages={totalPages}
-        title={title}
-        company={company}
-        curator={curator}
-      />
+
+      {jobs.success ? (
+        <JobListAndPagination
+          jobData={jobs.data}
+          queryData={{ page, title, company, curator }}
+        />
+      ) : (
+        <h2>No jobs found</h2>
+      )}
     </main>
   );
 };

@@ -12,7 +12,7 @@ const JobListPage = ({
         <thead>
           <tr>
             <th>Company</th>
-            <th>Job</th>
+            <th>Title</th>
             <th>Posted/ Updated at</th>
             <th>Actions</th>
           </tr>
