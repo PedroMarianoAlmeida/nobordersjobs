@@ -13,6 +13,8 @@ import { urlFormatter } from "@/utils/text";
 import { JobListSearchParams } from "@/app/job/list/page";
 import { ELEMENTS_PER_PAGE } from "@/utils/constants";
 
+//TODO: Separate the dataBase service in small files (one for each table, maybe)
+
 export const getUserNameByEmail = async (email: string) => {
   // To do: Encrypt email (to send to database and than here to fetch it)
   try {
@@ -176,7 +178,6 @@ export const getJobList = async ({
     // });
 
     //TO DO: A better way to pagination, the "skip" should match the criteria of the search
-    prisma.jobs
     const jobs = await prisma.jobs.findMany({
       where: {
         title: { contains: title, mode: "insensitive" },
@@ -210,6 +211,27 @@ export const getJobList = async ({
       success: true,
       data: { jobList: jobsToReturn, totalPages: lastPage },
     };
+  } catch (error) {
+    return defaultErrorSanitizer(error);
+  }
+};
+
+export const updateCuratorDescription = async (profile: string) => {
+  const { isValid, userName } = await userSanitizer();
+  if (!isValid) throw new Error("You are not logged in");
+
+  try {
+    const curator = await prisma.curator.update({
+      where: {
+        name: userName,
+      },
+      data: {
+        profile,
+      },
+    });
+
+    if (curator === null) throw new Error("Error updating curator");
+    return { success: true };
   } catch (error) {
     return defaultErrorSanitizer(error);
   }
