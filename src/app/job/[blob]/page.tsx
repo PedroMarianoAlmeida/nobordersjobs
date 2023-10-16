@@ -18,7 +18,7 @@ const JobDetailPage = async ({
   const bodyParsed = parse(body);
 
   return (
-    <div className="min-h-screen bg-base-200 flex items-center">
+    <main className="min-h-screen bg-base-200 flex items-center">
       <div className="card mx-auto w-full max-w-5xl  shadow-xl">
         <div className="flex flex-col bg-base-100 rounded-xl gap-4 p-5 items-center">
           <h1 className="text-2xl font-semibold mb-2 text-center">{title}</h1>
@@ -37,7 +37,7 @@ const JobDetailPage = async ({
           </div>
         </div>
       </div>
-    </div>
+    </main>
   );
 };
 

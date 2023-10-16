@@ -236,3 +236,18 @@ export const updateCuratorDescription = async (profile: string) => {
     return defaultErrorSanitizer(error);
   }
 };
+
+export const getCuratorProfile = async (userName: string) => {
+  try {
+    const curator = await prisma.curator.findUnique({
+      where: {
+        name: userName,
+      },
+    });
+
+    if (curator === null) throw new Error("No curator found");
+    return { success: true, data: curator };
+  } catch (error) {
+    return defaultErrorSanitizer(error);
+  }
+};
