@@ -7,8 +7,7 @@ export default async function Home() {
         <div className="max-w-md">
           <h1 className="text-5xl font-bold">No Border Jobs</h1>
           <p className="py-6">
-            Jobs in companies that not care where you are from, just how good
-            you are!
+            Seize International Opportunities: Your Skills, No Borders.
           </p>
 
           <Link href="/job/list">
