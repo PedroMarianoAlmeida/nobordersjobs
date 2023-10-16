@@ -3,7 +3,7 @@ const AboutPage = () => {
     <main className="min-h-screen bg-base-200 flex flex-col gap-3 pt-3 px-5">
       <h1>About</h1>
       <p>
-        At No Border Jobs, we're on a mission to break down geographical
+        At No Border Jobs, we{"'"}re on a mission to break down geographical
         barriers and connect talent with global opportunities. Our platform is
         your gateway to a world of remote work possibilities.
       </p>
@@ -17,8 +17,8 @@ const AboutPage = () => {
         >
           our repository
         </a>
-        . We're committed to creating a community where everyone can contribute
-        to shaping the future of work.
+        . We{"'"}re committed to creating a community where everyone can
+        contribute to shaping the future of work.
       </p>
       <p>
         Join us in redefining the way we work and expanding the horizons of your
