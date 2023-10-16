@@ -1,5 +1,7 @@
-import { getJopPostByBlob } from "@/services/dataBaseService";
 import parse from "html-react-parser";
+import Link from "next/link";
+
+import { getJopPostByBlob } from "@/services/dataBaseService";
 
 const JobDetailPage = async ({
   params: { blob },
@@ -27,9 +29,11 @@ const JobDetailPage = async ({
 
           <div className="text-right">
             <span className="text-sm">by </span>
-            <span className="text-primary inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">
-              {curator}
-            </span>
+            <Link href={`/curator/${curator}`}>
+              <span className="text-primary inline-block  hover:text-primary hover:underline hover:cursor-pointer transition duration-200">
+                {curator}
+              </span>
+            </Link>
           </div>
 
           <div className="card card-compact w-96 bg-base-100 shadow-xl border p-5">
