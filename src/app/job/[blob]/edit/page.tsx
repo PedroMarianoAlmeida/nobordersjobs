@@ -1,3 +1,4 @@
+import PostEditJobForm from "@/components/form/PostEditJobForm";
 import {
   getJopPostByBlob,
   getUserNameByEmail,
@@ -16,6 +17,7 @@ const EditJobPage = async ({
     title,
     company,
     body,
+    id,
     curator: { name: curator },
   } = job.data;
 
@@ -40,6 +42,12 @@ const EditJobPage = async ({
   return (
     <main>
       <h1>Edit Job</h1>
+      <PostEditJobForm
+        initialBody={body}
+        initialCompany={company}
+        initialTitle={title}
+        jobId={id}
+      />
     </main>
   );
 };

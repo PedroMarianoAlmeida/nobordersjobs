@@ -1,15 +1,27 @@
 "use client";
 
-import { postNewJob } from "@/services/dataBaseService";
+import { editJob, postNewJob } from "@/services/dataBaseService";
 import { useState, useEffect } from "react";
 
 import SuccessJobActions from "./SuccessJobsActions";
 import RichTextEditor from "@/components/RichTextEditor";
 
-const PostJobForm = () => {
-  const [title, setTitle] = useState("");
-  const [jobBody, setJobBody] = useState("");
-  const [company, setCompany] = useState("");
+interface PostEditJobFormProps {
+  initialTitle?: string;
+  initialBody?: string;
+  initialCompany?: string;
+  jobId?: number;
+}
+
+const PostEditJobForm = ({
+  initialTitle = "",
+  initialBody = "",
+  initialCompany = "",
+  jobId,
+}: PostEditJobFormProps) => {
+  const [title, setTitle] = useState(initialTitle);
+  const [jobBody, setJobBody] = useState(initialBody);
+  const [company, setCompany] = useState(initialCompany);
   const [allowSubmit, setAllowSubmit] = useState(false);
   const [blob, setBlob] = useState("");
 
@@ -23,7 +35,9 @@ const PostJobForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
-    const res = await postNewJob({ title, jobBody, company });
+    const res = jobId
+      ? await editJob({ title, jobBody, company, jobId })
+      : await postNewJob({ title, jobBody, company });
     if (res.success) {
       setFormMessage("Job posted successfully!");
       setBlob(res.blob);
@@ -85,7 +99,7 @@ const PostJobForm = () => {
             className="btn btn-primary"
             disabled={!allowSubmit || loading}
           >
-            Post
+            {jobId ? "Edit" : "Post"}
           </button>
           <p>{formMessage}</p>
         </div>
@@ -104,4 +118,4 @@ const PostJobForm = () => {
   );
 };
 
-export default PostJobForm;
+export default PostEditJobForm;

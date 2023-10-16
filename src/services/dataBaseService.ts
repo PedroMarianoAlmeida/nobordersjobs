@@ -139,6 +139,46 @@ export const postNewJob = async (post: {
   }
 };
 
+export const editJob = async (post: {
+  title: string;
+  jobBody: string;
+  company: string;
+  jobId: number;
+}) => {
+  const { title, jobBody, company, jobId } = post;
+  const curatorRes = await checkUserIsCurator();
+  if (
+    !curatorRes.success ||
+    !curatorRes.isCurator ||
+    curatorRes.curator === undefined
+  )
+    throw new Error("You are not a curator");
+
+  const blob = urlFormatter(
+    `${title} at ${company} by ${curatorRes.curator.name} in ${new Date()
+      .toISOString()
+      .slice(0, 10)}`
+  );
+  try {
+    const newJob = await prisma.jobs.update({
+      where: {
+        id: jobId,
+      },
+      data: {
+        title,
+        company,
+        body: jobBody,
+        blob,
+        updatedAt: new Date(),
+      },
+    });
+    if (newJob === null) throw new Error("Error inserting new curator");
+    return { success: true, blob };
+  } catch (error) {
+    return defaultErrorSanitizer(error);
+  }
+};
+
 export const getJopPostByBlob = async (blob: string) => {
   try {
     const job = await prisma.jobs.findUnique({
