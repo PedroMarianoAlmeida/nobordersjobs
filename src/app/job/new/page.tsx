@@ -1,6 +1,6 @@
 import { checkUserIsCurator } from "@/services/dataBaseService";
 import { redirect } from "next/navigation";
-import PostJobForm from "./PostJobForm";
+import PostJobForm from "@/components/form/PostEditJobForm";
 
 const PostJobPage = async () => {
   const isUserCurator = await checkUserIsCurator();
