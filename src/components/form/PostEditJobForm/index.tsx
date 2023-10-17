@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import SuccessJobActions from "./SuccessJobsActions";
 import RichTextEditor from "@/components/RichTextEditor";
 
+//Split in two different forms, reuse only the UX, but the post/edit options is too different (has the jobId, and when have the jobId has a value to the isOpen)
 interface PostEditJobFormProps {
   initialTitle?: string;
   initialBody?: string;
@@ -18,7 +19,7 @@ const PostEditJobForm = ({
   initialTitle = "",
   initialBody = "",
   initialCompany = "",
-  initialIsOpen,
+  initialIsOpen = true,
   jobId,
 }: PostEditJobFormProps) => {
   const [title, setTitle] = useState(initialTitle);
@@ -50,7 +51,7 @@ const PostEditJobForm = ({
     setLoading(false);
     setAllowSubmit(false);
   };
-  
+
   useEffect(() => {
     //The jobBody checker is not working as expected
     const contentChanged = jobId
