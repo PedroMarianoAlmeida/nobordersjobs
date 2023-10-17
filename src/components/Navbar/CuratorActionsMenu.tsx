@@ -6,11 +6,17 @@ import Link from "next/link";
 
 const PostJobButton = () => {
   const [isCurator, setIsCurator] = useState(false);
+  const [curatorName, setCuratorName] = useState("");
 
   const getIsUserCurator = async () => {
     const isCuratorChecker = await checkUserIsCurator();
-    if (isCuratorChecker.success) setIsCurator(isCuratorChecker.isCurator);
-    else setIsCurator(false);
+    if (isCuratorChecker.success) {
+      setIsCurator(isCuratorChecker.isCurator);
+
+      if (isCuratorChecker.isCurator && isCuratorChecker.curator) {
+        setCuratorName(isCuratorChecker.curator.name);
+      }
+    } else setIsCurator(false);
   };
 
   useEffect(() => {
@@ -29,6 +35,11 @@ const PostJobButton = () => {
       <li>
         <Link href="/curator/edit-description">
           <button>Edit Profile</button>
+        </Link>
+      </li>
+      <li>
+        <Link href={`/curator/${curatorName}/dashboard`}>
+          <button>Dashboard</button>
         </Link>
       </li>
     </>
