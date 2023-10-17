@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { JobListSearchParams } from "./page";
+import { JobListSearchParams } from "../../../app/job/list/page";
 import { Fragment } from "react";
 
 interface JobListPaginationProps extends JobListSearchParams {

@@ -1,8 +1,8 @@
 import { Jobs } from "@prisma/client";
 
 import JobListPagination from "./JobListPaginations";
-import JobListTable from "./JobListTable";
-import { JobListSearchParams } from "./page";
+import JobListTable from "@/components/table/JobListTable/JobListTable";
+import { JobListSearchParams } from "../../../app/job/list/page";
 
 interface JobListAndPaginationProps {
   jobData: {

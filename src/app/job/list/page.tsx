@@ -1,5 +1,5 @@
 import { getJobList } from "@/services/dataBaseService";
-import JobListAndPagination from "./JobListAndPagination";
+import JobListAndPagination from "@/components/table/JobListTable/JobListAndPagination";
 import JobListForm from "./JobListForm";
 
 export interface JobListSearchParams {

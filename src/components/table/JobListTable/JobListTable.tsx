@@ -13,7 +13,7 @@ const JobListPage = ({
           <tr>
             <th>Company</th>
             <th>Title</th>
-            <th>Posted/ Updated at</th>
+            <th>Last change at</th>
             <th>Actions</th>
           </tr>
         </thead>
