@@ -48,6 +48,7 @@ const CuratorDashboardPage = async ({
         <JobListAndPagination
           jobData={jobs.data}
           queryData={{ page, title, company, curator: curatorName }}
+          isCurator
         />
       ) : (
         <h2>No jobs found</h2>

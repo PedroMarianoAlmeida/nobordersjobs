@@ -3,8 +3,10 @@ import Link from "next/link";
 
 const JobListPage = ({
   jobList,
+  isCurator,
 }: {
   jobList: Pick<Jobs, "company" | "title" | "blob" | "updatedAt">[];
+  isCurator?: true;
 }) => {
   return (
     <div className="overflow-x-auto w-11/12">
@@ -23,8 +25,15 @@ const JobListPage = ({
               <td>{company}</td>
               <td>{title}</td>
               <td>{updatedAt.toLocaleDateString("en-us")}</td>
-              <td>
-                <Link href={`/job/${blob}`}>See details</Link>
+              <td className="flex gap-2">
+                <Link href={`/job/${blob}`}>
+                  <span className="underline">See</span>
+                </Link>
+                {isCurator && (
+                  <Link href={`/job/${blob}/edit`}>
+                    <span className="underline">Edit</span>
+                  </Link>
+                )}
               </td>
             </tr>
           ))}

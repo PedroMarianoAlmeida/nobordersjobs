@@ -10,15 +10,17 @@ interface JobListAndPaginationProps {
     totalPages: number;
   };
   queryData: JobListSearchParams;
+  isCurator?: true;
 }
 
 const JobListAndPagination = ({
   jobData: { jobList, totalPages },
   queryData: { page, title, company, curator },
+  isCurator,
 }: JobListAndPaginationProps) => {
   return (
     <>
-      <JobListTable jobList={jobList} />
+      <JobListTable jobList={jobList} isCurator={isCurator} />
       <JobListPagination
         page={page}
         totalPages={totalPages}
