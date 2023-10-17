@@ -23,14 +23,13 @@ const CuratorDashboardPage = async ({
     !getCurator.isCurator ||
     getCurator.curator === undefined
   )
-    redirect("/");
+    return <div>Not authorized</div>;
   // -----------------------------
   const {
     curator: { name },
   } = getCurator;
 
-  if (name !== curatorName) redirect("/"); //Here is validated if the user is the same of the url
-
+  if (name !== curatorName) return <div>Not authorized</div>;
   const jobs = await getJobList({ curator: name });
 
   return (

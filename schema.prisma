@@ -34,4 +34,5 @@ model Jobs {
    updatedAt DateTime @default(now())
    curator  Curator  @relation(fields: [curatorId], references: [id])
    curatorId Int
+   isOpen Boolean @default(true)
 }

@@ -11,17 +11,20 @@ interface PostEditJobFormProps {
   initialBody?: string;
   initialCompany?: string;
   jobId?: number;
+  initialIsOpen?: boolean;
 }
 
 const PostEditJobForm = ({
   initialTitle = "",
   initialBody = "",
   initialCompany = "",
+  initialIsOpen,
   jobId,
 }: PostEditJobFormProps) => {
   const [title, setTitle] = useState(initialTitle);
   const [jobBody, setJobBody] = useState(initialBody);
   const [company, setCompany] = useState(initialCompany);
+  const [isOpen, setIsOpen] = useState(initialIsOpen);
   const [allowSubmit, setAllowSubmit] = useState(false);
   const [blob, setBlob] = useState("");
 
@@ -36,7 +39,7 @@ const PostEditJobForm = ({
     e.preventDefault();
     setLoading(true);
     const res = jobId
-      ? await editJob({ title, jobBody, company, jobId })
+      ? await editJob({ title, jobBody, company, jobId, isOpen })
       : await postNewJob({ title, jobBody, company });
     if (res.success) {
       setFormMessage("Job posted successfully!");
@@ -45,20 +48,50 @@ const PostEditJobForm = ({
       setFormMessage("Error posting job, try again later");
     }
     setLoading(false);
+    setAllowSubmit(false);
   };
-
+  
   useEffect(() => {
+    //The jobBody checker is not working as expected
+    const contentChanged = jobId
+      ? title !== initialTitle ||
+        jobBody !== initialBody ||
+        company !== initialCompany ||
+        isOpen !== initialIsOpen
+      : true;
+
     setAllowSubmit(
-      title.length > 0 && jobBody.length > 0 && company.length > 0
+      title.length > 0 &&
+        jobBody.length > 0 &&
+        company.length > 0 &&
+        contentChanged
     );
     if (title === "" && jobBody === "" && company === "") {
       setFormMessage("");
     }
-  }, [title, jobBody, company]);
+  }, [title, jobBody, company, isOpen]);
 
   return (
     <>
       <form className="card-body" onSubmit={handleSubmit}>
+        {jobId !== undefined ? (
+          <div className="form-control">
+            <label className="label cursor-pointer">
+              <span className="label-text">Open Job</span>
+              <input
+                type="checkbox"
+                className={`toggle ${
+                  isOpen ? "toggle-success" : "toggle-error"
+                }`}
+                checked={isOpen}
+                onClick={() => setIsOpen(!isOpen)}
+              />
+            </label>
+          </div>
+        ) : (
+          <></>
+        )}
+
         <div className="form-control">
           <label className="label">
             <span className="label-text">Job Title</span>

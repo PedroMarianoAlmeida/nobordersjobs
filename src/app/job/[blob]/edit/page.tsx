@@ -18,6 +18,7 @@ const EditJobPage = async ({
     company,
     body,
     id,
+    isOpen,
     curator: { name: curator },
   } = job.data;
 
@@ -46,6 +47,7 @@ const EditJobPage = async ({
         initialBody={body}
         initialCompany={company}
         initialTitle={title}
+        initialIsOpen={isOpen}
         jobId={id}
       />
     </main>

@@ -144,6 +144,7 @@ export const editJob = async (post: {
   jobBody: string;
   company: string;
   jobId: number;
+  isOpen: boolean;
 }) => {
   const { title, jobBody, company, jobId } = post;
   const curatorRes = await checkUserIsCurator();
@@ -169,6 +170,7 @@ export const editJob = async (post: {
         company,
         body: jobBody,
         blob,
+        isOpen: post.isOpen,
         updatedAt: new Date(),
       },
     });
