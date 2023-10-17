@@ -1,11 +1,20 @@
+import JobListAndPagination from "@/components/table/JobListTable/JobListAndPagination";
+import JobListForm from "@/components/table/JobListTable/JobListForm";
 import { checkUserIsCurator, getJobList } from "@/services/dataBaseService";
 import { redirect } from "next/navigation";
 
+interface JobListPageProps {
+  params: { curatorName: string };
+  searchParams: {
+    page?: string;
+    title?: string;
+    company?: string;
+  };
+}
 const CuratorDashboardPage = async ({
   params: { curatorName },
-}: {
-  params: { curatorName: string };
-}) => {
+  searchParams: { page, title, company },
+}: JobListPageProps) => {
   // This code was copied form edit-description page... put it in a reusable function
   const getCurator = await checkUserIsCurator();
 
@@ -23,11 +32,26 @@ const CuratorDashboardPage = async ({
   if (name !== curatorName) redirect("/"); //Here is validated if the user is the same of the url
 
   const jobs = await getJobList({ curator: name });
-  console.log(jobs);
 
   return (
     <main>
-      <h1>{curatorName} Dashboard</h1>
+      <h1 className="text-center">{curatorName} Job list</h1>
+
+      <JobListForm
+        page={page}
+        title={title}
+        company={company}
+        curator={curatorName}
+      />
+
+      {jobs.success ? (
+        <JobListAndPagination
+          jobData={jobs.data}
+          queryData={{ page, title, company, curator: curatorName }}
+        />
+      ) : (
+        <h2>No jobs found</h2>
+      )}
     </main>
   );
 };

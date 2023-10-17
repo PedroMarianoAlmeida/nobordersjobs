@@ -37,7 +37,6 @@ const PostJobButton = () => {
           <button>New Job</button>
         </Link>
       </li>
-
       <li>
         <Link href={`/curator/${curatorName}/job-list`}>
           <button>Jobs List</button>

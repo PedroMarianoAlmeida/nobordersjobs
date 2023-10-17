@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
-import { JobListSearchParams } from "./page";
+import { JobListSearchParams } from "../../../app/job/list/page";
 
 // TODO: Fix the uncontrolled input warning
 const JobListForm = ({
