@@ -37,6 +37,11 @@ const EveryoneMenu = () => {
             </Link>
           </li>
           <li>
+            <Link href="/contribute">
+              <button>Contribute</button>
+            </Link>
+          </li>
+          <li>
             <Link href="/job/list">
               <button>Jobs</button>
             </Link>

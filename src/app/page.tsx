@@ -13,6 +13,10 @@ export default async function Home() {
           <Link href="/job/list">
             <button className="btn btn-primary">See Open Positions</button>
           </Link>
+
+          <Link href="/contribute">
+            <button className="btn btn-secondary ml-2">Contribute</button>
+          </Link>
         </div>
       </div>
     </main>
