@@ -15,8 +15,8 @@ const contributePage = () => {
       <p className="mb-1">
         We have various sources for discovering job opportunities, including
         global, remote, and borderless positions. However, manually verifying
-        all these websites can be time-consuming. If you{"'"}d like to assist us in
-        this effort, please contact the project creator,{" "}
+        all these websites can be time-consuming. If you{"'"}d like to assist us
+        in this effort, please contact the project creator,{" "}
         <a
           href="https://www.linkedin.com/in/pedroprogrammer/"
           target="_blank"
@@ -44,8 +44,8 @@ const contributePage = () => {
         Provide Suggestions, Comments, or Report Issues
       </h3>
       <p className="mb-1">
-        Even if you're not a coder, you can still contribute by creating issues
-        or sharing your suggestions on{" "}
+        Even if you{"'"}re not a coder, you can still contribute by creating
+        issues or sharing your suggestions on{" "}
         <a
           href="https://github.com/PedroMarianoAlmeida/nobordersjobs"
           target="_blank"
