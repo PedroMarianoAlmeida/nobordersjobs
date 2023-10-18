@@ -28,9 +28,9 @@ const JobListForm = ({
   }, [title, company, status]);
 
   return (
-    <form className="card-body">
-      <div className="form-control">
-        <label className="label">
+    <form className="card-body flex flex-row justify-center w-full">
+      <div className="form-control max-w-xs">
+        <label className="label flex items-center justify-center">
           <span className="label-text">Job Title</span>
         </label>
         <input
@@ -43,8 +43,8 @@ const JobListForm = ({
         />
       </div>
 
-      <div className="form-control">
-        <label className="label">
+      <div className="form-control max-w-xs">
+        <label className="label flex items-center justify-center">
           <span className="label-text">Company</span>
         </label>
         <input
@@ -56,30 +56,31 @@ const JobListForm = ({
           required
         />
       </div>
-
-      <div className="form-control">
-        <label className="label cursor-pointer">
-          <span className="label-text">Only open jobs</span>
-          <input
-            type="radio"
-            name="radio-10"
-            className="radio checked:bg-blue-500"
-            checked={status === "open"}
-            onClick={() => setStatus("open")}
-          />
-        </label>
-      </div>
-      <div className="form-control">
-        <label className="label cursor-pointer">
-          <span className="label-text">Open and Closed jobs</span>
-          <input
-            type="radio"
-            name="radio-10"
-            className="radio checked:bg-blue-500"
-            onClick={() => setStatus("")}
-            checked={status === ""}
-          />
-        </label>
+      <div>
+        <div className="form-control">
+          <label className="label cursor-pointer flex align-center">
+            <input
+              type="radio"
+              name="radio-10"
+              className="radio checked:bg-blue-500 mr-3"
+              checked={status === "open"}
+              onClick={() => setStatus("open")}
+            />
+            <span className="label-text w-full">Only open jobs</span>
+          </label>
+        </div>
+        <div className="form-control">
+          <label className="label cursor-pointer flex align-center">
+            <input
+              type="radio"
+              name="radio-10"
+              className="radio checked:bg-blue-500 mr-3"
+              onClick={() => setStatus("")}
+              checked={status === ""}
+            />
+            <span className="label-text">Open and Closed jobs</span>
+          </label>
+        </div>
       </div>
     </form>
   );
