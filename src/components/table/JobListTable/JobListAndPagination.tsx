@@ -6,7 +6,7 @@ import { JobListSearchParams } from "../../../app/job/list/page";
 
 interface JobListAndPaginationProps {
   jobData: {
-    jobList: Pick<Jobs, "company" | "title" | "blob" | "updatedAt">[];
+    jobList: Jobs[];
     totalPages: number;
   };
   queryData: JobListSearchParams;
@@ -15,7 +15,7 @@ interface JobListAndPaginationProps {
 
 const JobListAndPagination = ({
   jobData: { jobList, totalPages },
-  queryData: { page, title, company, curator , status},
+  queryData: { page, title, company, curator, status },
   isCurator,
 }: JobListAndPaginationProps) => {
   return (

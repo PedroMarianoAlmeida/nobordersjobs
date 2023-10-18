@@ -5,7 +5,7 @@ const JobListPage = ({
   jobList,
   isCurator,
 }: {
-  jobList: Pick<Jobs, "company" | "title" | "blob" | "updatedAt">[];
+  jobList: Jobs[];
   isCurator?: true;
 }) => {
   return (
@@ -15,16 +15,17 @@ const JobListPage = ({
           <tr>
             <th>Company</th>
             <th>Title</th>
-            <th>Last change at</th>
+            <th>Open</th>
             <th>Actions</th>
+            <th>Last change at</th>
           </tr>
         </thead>
         <tbody>
-          {jobList.map(({ title, company, blob, updatedAt }) => (
+          {jobList.map(({ title, company, blob, updatedAt, isOpen }) => (
             <tr key={blob}>
               <td>{company}</td>
               <td>{title}</td>
-              <td>{updatedAt.toLocaleDateString("en-us")}</td>
+              <td>{isOpen ? "✅" : "❌"}</td>
               <td className="flex gap-2">
                 <Link href={`/job/${blob}`}>
                   <span className="underline">See</span>
@@ -35,6 +36,7 @@ const JobListPage = ({
                   </Link>
                 )}
               </td>
+              <td>{updatedAt.toLocaleDateString("en-us")}</td>
             </tr>
           ))}
         </tbody>

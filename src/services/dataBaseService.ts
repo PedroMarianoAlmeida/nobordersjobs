@@ -239,6 +239,7 @@ export const getJobList = async ({
         title: true,
         blob: true,
         updatedAt: true,
+        isOpen: true,
       },
       orderBy: {
         updatedAt: "desc",
