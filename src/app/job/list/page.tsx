@@ -7,14 +7,16 @@ export interface JobListSearchParams {
   title?: string;
   company?: string;
   curator?: string;
+  status?: string;
 }
 interface JobListPageProps {
   searchParams: JobListSearchParams;
 }
 
 const JobListPage = async ({ searchParams }: JobListPageProps) => {
-  const { page, title, company, curator } = searchParams;
-  const jobs = await getJobList({ page, title, company, curator });
+  const { page, title, company, curator, status } = searchParams;
+
+  const jobs = await getJobList({ page, title, company, curator, status });
 
   return (
     <main className="flex flex-col gap-3 items-center">
@@ -24,6 +26,7 @@ const JobListPage = async ({ searchParams }: JobListPageProps) => {
         title={title}
         company={company}
         curator={curator}
+        status={status}
       />
 
       {jobs.success ? (

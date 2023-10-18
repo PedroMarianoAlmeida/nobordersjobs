@@ -207,8 +207,15 @@ export const getJobList = async ({
   title,
   company,
   curator,
+  status,
 }: JobListSearchParams) => {
   const pageFormatted = Number(page);
+
+  const possibleStatus = [
+    { status: "open", isOpen: true },
+    { status: "closed", isOpen: false },
+  ];
+  const isOpen = possibleStatus.find((s) => s.status === status)?.isOpen;
 
   try {
     // const totalJobs = await prisma.jobs.count({
@@ -225,6 +232,7 @@ export const getJobList = async ({
         title: { contains: title, mode: "insensitive" },
         company: { contains: company, mode: "insensitive" },
         curator: { name: { contains: curator, mode: "insensitive" } },
+        isOpen,
       },
       select: {
         company: true,

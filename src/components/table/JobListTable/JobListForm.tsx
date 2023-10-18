@@ -6,23 +6,26 @@ import { JobListSearchParams } from "../../../app/job/list/page";
 
 // TODO: Fix the uncontrolled input warning
 const JobListForm = ({
-  page,
   title: currentTitle,
   company: currentCompany,
   curator,
+  status: currentStatus,
 }: JobListSearchParams) => {
   const router = useRouter();
 
   const [title, setTitle] = useState(currentTitle);
   const [company, setCompany] = useState(currentCompany);
+  const [status, setStatus] = useState(currentStatus);
 
   useEffect(() => {
     // TODO: Add a debounce to avoid spamming the router
     const newUrl = `?page=1${title ? `&title=${title}` : ""}${
       company ? `&company=${company}` : ""
-    }${curator ? `&curator=${curator}` : ""}`;
+    }${curator ? `&curator=${curator}` : ""}${
+      status ? `&status=${status}` : ""
+    }`;
     router.push(newUrl);
-  }, [title, company]);
+  }, [title, company, status]);
 
   return (
     <form className="card-body">
@@ -52,6 +55,31 @@ const JobListForm = ({
           onChange={(e) => setCompany(e.target.value)}
           required
         />
+      </div>
+
+      <div className="form-control">
+        <label className="label cursor-pointer">
+          <span className="label-text">Only open jobs</span>
+          <input
+            type="radio"
+            name="radio-10"
+            className="radio checked:bg-blue-500"
+            checked={status === "open"}
+            onClick={() => setStatus("open")}
+          />
+        </label>
+      </div>
+      <div className="form-control">
+        <label className="label cursor-pointer">
+          <span className="label-text">Open and Closed jobs</span>
+          <input
+            type="radio"
+            name="radio-10"
+            className="radio checked:bg-blue-500"
+            onClick={() => setStatus("")}
+            checked={status === ""}
+          />
+        </label>
       </div>
     </form>
   );
