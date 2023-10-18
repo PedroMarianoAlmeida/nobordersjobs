@@ -28,9 +28,9 @@ const JobListForm = ({
   }, [title, company, status]);
 
   return (
-    <form className="card-body flex flex-row justify-center w-full">
+    <form className="card-body flex md:flex-row flex-col md:justify-center items-center w-full">
       <div className="form-control max-w-xs">
-        <label className="label flex items-center justify-center">
+        <label className="label md:flex md:items-center md:justify-center">
           <span className="label-text">Job Title</span>
         </label>
         <input
@@ -44,7 +44,7 @@ const JobListForm = ({
       </div>
 
       <div className="form-control max-w-xs">
-        <label className="label flex items-center justify-center">
+        <label className="label md:flex md:items-center md:justify-center">
           <span className="label-text">Company</span>
         </label>
         <input
@@ -78,7 +78,7 @@ const JobListForm = ({
               onClick={() => setStatus("")}
               checked={status === ""}
             />
-            <span className="label-text">Open and Closed jobs</span>
+            <span className="label-text w-full">Open and Closed jobs</span>
           </label>
         </div>
       </div>
