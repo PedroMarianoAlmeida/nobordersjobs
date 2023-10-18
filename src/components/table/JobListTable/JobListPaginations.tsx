@@ -13,6 +13,7 @@ const JobListPagination = ({
   company,
   curator,
   totalPages,
+  status,
 }: JobListPaginationProps) => {
   const pageItemsArray = new Array(totalPages).fill(null).map((_, index) => {
     const currentPage = (index + 1).toString();
@@ -21,7 +22,9 @@ const JobListPagination = ({
         ? ""
         : `/job/list?page=${currentPage}${title ? `&title=${title}` : ""}${
             company ? `&company=${company}` : ""
-          }${curator ? `&curator=${curator}` : ""}`;
+          }${curator ? `&curator=${curator}` : ""}${
+            status ? `&status=${status}` : ""
+          }`;
 
     const pageClass = `join-item btn ${
       page === currentPage ? "btn-active" : ""

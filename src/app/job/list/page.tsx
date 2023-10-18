@@ -32,7 +32,7 @@ const JobListPage = async ({ searchParams }: JobListPageProps) => {
       {jobs.success ? (
         <JobListAndPagination
           jobData={jobs.data}
-          queryData={{ page, title, company, curator }}
+          queryData={{ page, title, company, curator, status }}
         />
       ) : (
         <h2>No jobs found</h2>

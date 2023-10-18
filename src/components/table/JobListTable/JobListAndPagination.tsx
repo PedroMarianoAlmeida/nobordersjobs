@@ -15,7 +15,7 @@ interface JobListAndPaginationProps {
 
 const JobListAndPagination = ({
   jobData: { jobList, totalPages },
-  queryData: { page, title, company, curator },
+  queryData: { page, title, company, curator , status},
   isCurator,
 }: JobListAndPaginationProps) => {
   return (
@@ -27,6 +27,7 @@ const JobListAndPagination = ({
         title={title}
         company={company}
         curator={curator}
+        status={status}
       />
     </>
   );
