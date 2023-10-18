@@ -6,7 +6,7 @@ import { JobListSearchParams } from "../../../app/job/list/page";
 
 interface JobListAndPaginationProps {
   jobData: {
-    jobList: Jobs[];
+    jobList: Pick<Jobs, "company" | "title" | "blob" | "updatedAt" | "isOpen">[];
     totalPages: number;
   };
   queryData: JobListSearchParams;

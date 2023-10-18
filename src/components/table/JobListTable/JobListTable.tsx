@@ -5,7 +5,7 @@ const JobListPage = ({
   jobList,
   isCurator,
 }: {
-  jobList: Jobs[];
+  jobList: Pick<Jobs, "company" | "title" | "blob" | "updatedAt" | "isOpen">[];
   isCurator?: true;
 }) => {
   return (
