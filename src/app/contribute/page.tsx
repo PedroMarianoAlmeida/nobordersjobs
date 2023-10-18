@@ -15,7 +15,7 @@ const contributePage = () => {
       <p className="mb-1">
         We have various sources for discovering job opportunities, including
         global, remote, and borderless positions. However, manually verifying
-        all these websites can be time-consuming. If you'd like to assist us in
+        all these websites can be time-consuming. If you{"'"}d like to assist us in
         this effort, please contact the project creator,{" "}
         <a
           href="https://www.linkedin.com/in/pedroprogrammer/"
