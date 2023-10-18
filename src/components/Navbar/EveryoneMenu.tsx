@@ -42,7 +42,7 @@ const EveryoneMenu = () => {
             </Link>
           </li>
           <li>
-            <Link href="/job/list">
+            <Link href="/job/list?status=open">
               <button>Jobs</button>
             </Link>
           </li>

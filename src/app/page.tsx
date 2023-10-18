@@ -10,7 +10,7 @@ export default async function Home() {
             Seize International Opportunities: Your Skills, No Borders.
           </p>
 
-          <Link href="/job/list">
+          <Link href="/job/list?status=open">
             <button className="btn btn-primary">See Open Positions</button>
           </Link>
 
