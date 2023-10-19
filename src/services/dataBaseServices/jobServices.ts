@@ -7,7 +7,7 @@ import { defaultErrorSanitizer } from "@/types/errorHandler";
 import { urlFormatter } from "@/utils/text";
 import { JobListSearchParams } from "@/app/job/list/page";
 import { ELEMENTS_PER_PAGE } from "@/utils/constants";
-import { checkUserIsCurator } from "./dataBaseServices/curatorServices";
+import { checkUserIsCurator } from "./curatorServices";
 
 export const postNewJob = async (post: {
   title: string;

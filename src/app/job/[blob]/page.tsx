@@ -1,7 +1,7 @@
 import parse from "html-react-parser";
 import Link from "next/link";
 
-import { getJopPostByBlob } from "@/services/dataBaseService";
+import { getJopPostByBlob } from "@/services/dataBaseServices/jobServices";
 
 const JobDetailPage = async ({
   params: { blob },

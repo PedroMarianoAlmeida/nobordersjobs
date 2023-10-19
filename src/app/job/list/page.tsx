@@ -1,4 +1,4 @@
-import { getJobList } from "@/services/dataBaseService";
+import { getJobList } from "@/services/dataBaseServices/jobServices";
 import JobListAndPagination from "@/components/table/JobListTable/JobListAndPagination";
 import JobListForm from "@/components/table/JobListTable/JobListForm";
 

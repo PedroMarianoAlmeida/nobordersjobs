@@ -1,6 +1,6 @@
 "use client";
 
-import { editJob, postNewJob } from "@/services/dataBaseService";
+import { editJob, postNewJob } from "@/services/dataBaseServices/jobServices";
 import { useState, useEffect } from "react";
 
 import SuccessJobActions from "./SuccessJobsActions";
