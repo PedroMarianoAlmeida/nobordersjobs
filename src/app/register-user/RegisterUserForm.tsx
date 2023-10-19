@@ -5,7 +5,7 @@ import { urlFormatter } from "@/utils/text";
 import {
   checkUserNameExists,
   postNewUserName,
-} from "@/services/dataBaseServives/userServices";
+} from "@/services/dataBaseServices/userServices";
 
 const RegisterUserForm = () => {
   const [typedUsername, setTypedUsername] = useState("");

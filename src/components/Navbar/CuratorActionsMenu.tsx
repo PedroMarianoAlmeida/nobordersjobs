@@ -1,8 +1,8 @@
 "use client";
 // TODO: Check if is possible run this code in server side
 import { useState, useEffect } from "react";
-import { checkUserIsCurator } from "@/services/dataBaseService";
 import Link from "next/link";
+import { checkUserIsCurator } from "@/services/dataBaseServices/curatorServices";
 
 const PostJobButton = () => {
   const [isCurator, setIsCurator] = useState(false);

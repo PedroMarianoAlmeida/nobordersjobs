@@ -1,6 +1,6 @@
 "use client";
 import RichTextEditor from "@/components/RichTextEditor";
-import { updateCuratorDescription } from "@/services/dataBaseService";
+import { updateCuratorDescription } from "@/services/dataBaseServices/curatorServices";
 import { useState, useEffect } from "react";
 interface CuratorEditDescriptionFormProps {
   name: string;

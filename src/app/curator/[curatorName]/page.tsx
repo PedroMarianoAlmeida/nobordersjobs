@@ -1,7 +1,7 @@
 import parse from "html-react-parser";
-
-import { getCuratorProfile } from "@/services/dataBaseService";
 import Link from "next/link";
+
+import { getCuratorProfile } from "@/services/dataBaseServices/curatorServices";
 
 const CuratorPage = async ({
   params: { curatorName },

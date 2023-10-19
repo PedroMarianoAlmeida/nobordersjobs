@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
-import { checkUserIsCurator } from "@/services/dataBaseService";
 import CuratorEditDescriptionForm from "./CuratorEditDescriptionForm";
+import { checkUserIsCurator } from "@/services/dataBaseServices/curatorServices";
 
 const CuratorEditDescriptionPage = async () => {
   const getCurator = await checkUserIsCurator();

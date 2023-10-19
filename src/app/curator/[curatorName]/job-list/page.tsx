@@ -1,7 +1,7 @@
 import JobListAndPagination from "@/components/table/JobListTable/JobListAndPagination";
 import JobListForm from "@/components/table/JobListTable/JobListForm";
-import { checkUserIsCurator, getJobList } from "@/services/dataBaseService";
-import { redirect } from "next/navigation";
+import { getJobList } from "@/services/dataBaseService";
+import { checkUserIsCurator } from "@/services/dataBaseServices/curatorServices";
 
 interface JobListPageProps {
   params: { curatorName: string };

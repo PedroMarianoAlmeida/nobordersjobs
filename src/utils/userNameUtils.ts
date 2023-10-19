@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import { getUserNameByEmail } from "@/services/dataBaseServives/userServices";
+import { getUserNameByEmail } from "@/services/dataBaseServices/userServices";
 
 interface UserSanitizerSuccess {
   isValid: true;

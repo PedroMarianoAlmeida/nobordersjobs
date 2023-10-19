@@ -1,4 +1,4 @@
-import { getUserList } from "@/services/dataBaseServives/userServices";
+import { getUserList } from "@/services/dataBaseServices/userServices";
 
 const UserListPage = async () => {
   const userList = await getUserList();

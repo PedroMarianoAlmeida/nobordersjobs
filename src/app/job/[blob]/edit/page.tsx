@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 
 import PostEditJobForm from "@/components/form/PostEditJobForm";
 import { getJopPostByBlob } from "@/services/dataBaseService";
-import { getUserNameByEmail } from "@/services/dataBaseServives/userServices";
+import { getUserNameByEmail } from "@/services/dataBaseServices/userServices";
 
 const EditJobPage = async ({
   params: { blob },
