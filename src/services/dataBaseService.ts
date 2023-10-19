@@ -202,6 +202,46 @@ export const getJopPostByBlob = async (blob: string) => {
   }
 };
 
+interface GetUserListProps {
+  page?: string;
+}
+export const getUserList = async (params: GetUserListProps = { page: "1" }) => {
+  const { page } = params;
+  const pageFormatted = Number(page);
+
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        name: true,
+        curator: true,
+        createdAt: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    const totalUsers = users.length;
+    const lastPage = Math.ceil(totalUsers / ELEMENTS_PER_PAGE);
+
+    if (pageFormatted > lastPage) throw new Error("Page not found");
+
+    const initialIndexToBeInReturn = (pageFormatted - 1) * ELEMENTS_PER_PAGE;
+    const finalIndexToBeInReturn = initialIndexToBeInReturn + ELEMENTS_PER_PAGE;
+    const usersToReturn = [...users].slice(
+      initialIndexToBeInReturn,
+      finalIndexToBeInReturn
+    );
+
+    return {
+      success: true,
+      data: { jobList: usersToReturn, totalPages: lastPage },
+    };
+  } catch (error) {
+    return defaultErrorSanitizer(error);
+  }
+};
+
 export const getJobList = async ({
   page = "1",
   title,
