@@ -1,10 +1,11 @@
 "use client";
 import { useState, useEffect, ChangeEvent } from "react";
+
+import { urlFormatter } from "@/utils/text";
 import {
   checkUserNameExists,
   postNewUserName,
-} from "@/services/dataBaseService";
-import { urlFormatter } from "@/utils/text";
+} from "@/services/dataBaseServives/userServices";
 
 const RegisterUserForm = () => {
   const [typedUsername, setTypedUsername] = useState("");
