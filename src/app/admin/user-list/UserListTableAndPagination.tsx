@@ -1,6 +1,7 @@
 import Pagination from "@/components/table/Pagination";
 import Table from "@/components/table/Table";
 import { UserListSearchParams } from "@/types/queryParams";
+import ClientActions from "./ClientActions";
 
 interface UserWithCurator {
   name: string;
@@ -26,11 +27,7 @@ const UserListTableAndPagination = ({
     ({ name, createdAt, curator }) => ({
       Name: name,
       "Created at": createdAt.toLocaleDateString("en-us"),
-      Actions: curator ? (
-        <button className="btn btn-error">Remove curator access </button>
-      ) : (
-        <button className="btn btn-info">Add curator access</button>
-      ),
+      Actions: <ClientActions isCurator={curator !== null} name={name} />,
     })
   );
 
