@@ -2,9 +2,9 @@
 
 import { defaultErrorSanitizer } from "@/types/errorHandler";
 import { userSanitizer } from "@/utils/userNameUtils";
-import { PrismaClient } from "@prisma/client";
 import { checkUserIsAdmin } from "./adminServices";
-const prisma = new PrismaClient();
+import { prisma } from "@/utils/prismaClient";
+
 
 export const promoteUserToCurator = async (userName: string) => {
   const admin = await checkUserIsAdmin();

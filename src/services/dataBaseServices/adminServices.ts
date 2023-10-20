@@ -1,8 +1,8 @@
 "use server";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
+
 
 import { defaultErrorSanitizer } from "@/types/errorHandler";
+import { prisma } from "@/utils/prismaClient";
 import { userSanitizer } from "@/utils/userNameUtils";
 
 // I will keep here but I don't think I will use it (but I create to insert my first admin)

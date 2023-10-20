@@ -1,13 +1,11 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-
 import { defaultErrorSanitizer } from "@/types/errorHandler";
 import { urlFormatter } from "@/utils/text";
 import { ELEMENTS_PER_PAGE } from "@/utils/constants";
 import { checkUserIsCurator } from "./curatorServices";
 import { JobListSearchParams } from "@/types/queryParams";
+import { prisma } from "@/utils/prismaClient";
 
 export const postNewJob = async (post: {
   title: string;

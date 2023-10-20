@@ -1,8 +1,5 @@
 "use server";
 
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-
 import {
   DefaultErrorResponse,
   DefaultSuccessResponse,
@@ -10,6 +7,7 @@ import {
 } from "@/types/errorHandler";
 import { userSanitizer } from "@/utils/userNameUtils";
 import { ELEMENTS_PER_PAGE } from "@/utils/constants";
+import { prisma } from "@/utils/prismaClient";
 
 export const getUserNameByEmail = async (email: string) => {
   // To do: Encrypt email (to send to database and than here to fetch it)
