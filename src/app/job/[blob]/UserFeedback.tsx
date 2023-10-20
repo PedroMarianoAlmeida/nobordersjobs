@@ -1,44 +1,30 @@
-"use client";
-
 import Table from "@/components/table/Table";
+import FeedbackInput from "./FeedbackInput";
 
 const UserFeedback = () => {
-  return (
-    <Table
-      columnHeaders={[
-        "Answer",
-        "It is open? 📋",
-        "It is legit? 🔎",
-        "It is global? 🌎",
-      ]}
-      rows={[
-        {
-          Answer: "Yes",
-          "It is open? 📋": (
-            <input type="checkbox" className="checkbox checkbox-success" />
-          ),
-          "It is legit? 🔎": (
-            <input type="checkbox" className="checkbox checkbox-success" />
-          ),
-          "It is global? 🌎": (
-            <input type="checkbox" className="checkbox checkbox-success" />
-          ),
-        },
-        {
-          Answer: "No",
-          "It is open? 📋": (
-            <input type="checkbox" className="checkbox  checkbox-error" />
-          ),
-          "It is legit? 🔎": (
-            <input type="checkbox" className="checkbox  checkbox-error" />
-          ),
-          "It is global? 🌎": (
-            <input type="checkbox" className="checkbox  checkbox-error" />
-          ),
-        },
-      ]}
-    />
-  );
+  const columnHeaders = [
+    "Answer",
+    "It is open? 📋",
+    "It is legit? 🔎",
+    "It is global? 🌎",
+  ];
+
+  type Row = {
+    [key: string]: string | JSX.Element;
+  };
+  const rowYes: Row = {};
+  const rowNow: Row = {};
+  columnHeaders.forEach((column) => {
+    if (column === "Answer") {
+      rowYes["Answer"] = "Yes";
+      rowNow["Answer"] = "No";
+    } else {
+      rowYes[column] = <FeedbackInput column={column} answer="Yes" />;
+      rowNow[column] = <FeedbackInput column={column} answer="No" />;
+    }
+  });
+
+  return <Table columnHeaders={columnHeaders} rows={[rowYes, rowNow]} />;
 };
 
 export default UserFeedback;
