@@ -1,12 +1,16 @@
 import { Jobs } from "@prisma/client";
+import Link from "next/link";
 
 import JobListPagination from "./JobListPaginations";
-import JobListTable from "@/components/table/JobListTable/JobListTable";
 import { JobListSearchParams } from "@/types/queryParams";
+import Table from "@/components/table/Table";
 
 interface JobListAndPaginationProps {
   jobData: {
-    jobList: Pick<Jobs, "company" | "title" | "blob" | "updatedAt" | "isOpen">[];
+    jobList: Pick<
+      Jobs,
+      "company" | "title" | "blob" | "updatedAt" | "isOpen"
+    >[];
     totalPages: number;
   };
   queryData: JobListSearchParams;
@@ -18,9 +22,36 @@ const JobListAndPagination = ({
   queryData: { page, title, company, curator, status },
   isCurator,
 }: JobListAndPaginationProps) => {
+  const tableHeaders = [
+    "Company",
+    "Title",
+    "Open",
+    "Actions",
+    "Last change at",
+  ];
+  const dataFormattedForTable = jobList.map(
+    ({ title, company, blob, updatedAt, isOpen }) => ({
+      Company: company,
+      Title: title,
+      Open: isOpen ? "✅" : "❌",
+      Actions: (
+        <div className="flex gap-2">
+          <Link href={`/job/${blob}`}>
+            <span className="underline">See</span>
+          </Link>
+          {isCurator && (
+            <Link href={`/job/${blob}/edit`}>
+              <span className="underline">Edit</span>
+            </Link>
+          )}
+        </div>
+      ),
+      "Last change at": updatedAt.toLocaleDateString("en-us"),
+    })
+  );
   return (
     <>
-      <JobListTable jobList={jobList} isCurator={isCurator} />
+      <Table columnHeaders={tableHeaders} rows={dataFormattedForTable} />
       <JobListPagination
         page={page}
         totalPages={totalPages}
