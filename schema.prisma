@@ -14,6 +14,7 @@ model User {
   email     String   @unique
   createdAt DateTime @default(now())
   curator   Curator?
+  admin     Admin?
 }
 
 model Curator {
@@ -35,4 +36,11 @@ model Jobs {
    curator  Curator  @relation(fields: [curatorId], references: [id])
    curatorId Int
    isOpen Boolean @default(true)
+}
+
+model Admin {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  User User @relation(fields: [name], references: [name])
+  isSuperAdmin Boolean @default(false)
 }

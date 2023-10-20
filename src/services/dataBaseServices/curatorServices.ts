@@ -3,11 +3,15 @@
 import { defaultErrorSanitizer } from "@/types/errorHandler";
 import { userSanitizer } from "@/utils/userNameUtils";
 import { PrismaClient } from "@prisma/client";
+import { checkUserIsAdmin } from "./adminServices";
 const prisma = new PrismaClient();
 
 export const promoteUserToCurator = async (userName: string) => {
+  const admin = await checkUserIsAdmin();
+  if (!admin.success) throw new Error("Error checking if user is admin");
+  if (!admin.isAdmin) throw new Error("You are not an admin");
+
   try {
-    //TODO: Add a validation with the user trying to promote another user is admin (but there is not admin table yet)
     const newCurator = await prisma.curator.create({
       data: {
         name: userName,
