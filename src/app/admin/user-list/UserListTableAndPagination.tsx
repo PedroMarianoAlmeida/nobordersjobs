@@ -1,3 +1,4 @@
+import Pagination from "@/components/table/Pagination";
 import Table from "@/components/table/Table";
 import { UserListSearchParams } from "@/types/queryParams";
 import { User } from "@prisma/client";
@@ -11,20 +12,24 @@ interface UserListTableAndPaginationProps {
 }
 
 const UserListTableAndPagination = ({
-  userData,
+  userData: { userList, totalPages },
   queryData: { page },
 }: UserListTableAndPaginationProps) => {
   const tableHeaders = ["Name", "Created at"];
-  const dataFormattedForTable = userData.userList.map(
-    ({ name, createdAt }) => ({
-      Name: name,
-      "Created at": createdAt.toLocaleDateString("en-us"),
-    })
-  );
+  const dataFormattedForTable = userList.map(({ name, createdAt }) => ({
+    Name: name,
+    "Created at": createdAt.toLocaleDateString("en-us"),
+  }));
 
   return (
     <>
       <Table columnHeaders={tableHeaders} rows={dataFormattedForTable} />
+      <Pagination
+        totalPages={totalPages}
+        page={page ?? "1"}
+        paramsExceptPage={[]}
+        baseUrl="/admin/user-list"
+      />
     </>
   );
 };

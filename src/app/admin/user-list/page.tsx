@@ -13,18 +13,14 @@ const UserListPage = async ({ searchParams: { page } }: UserListPageProps) => {
   if (!getAdmin.success || !getAdmin.isAdmin || getAdmin.admin === undefined)
     return <div>Not authorized</div>;
 
-  const users = await getUserList();
+  const users = await getUserList({ page });
 
   if (!users.success) {
     return <div>Something went wrong</div>;
   }
-  const {
-    data: { userList, totalPages },
-  } = users;
 
-  console.log({ userList, totalPages });
   return (
-    <main>
+    <main className="flex flex-col gap-3 items-center">
       <h1>User List</h1>
       {users.success ? (
         <UserListTableAndPagination
