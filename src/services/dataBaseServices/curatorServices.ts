@@ -25,6 +25,25 @@ export const promoteUserToCurator = async (userName: string) => {
   }
 };
 
+export const demoteUserFromCurator = async (userName: string) => {
+  const admin = await checkUserIsAdmin();
+  if (!admin.success) throw new Error("Error checking if user is admin");
+  if (!admin.isAdmin) throw new Error("You are not an admin");
+
+  try {
+    const deletedCurator = await prisma.curator.delete({
+      where: {
+        name: userName,
+      },
+    });
+
+    if (deletedCurator === null) throw new Error("Error inserting new curator");
+    return { success: true };
+  } catch (error) {
+    return defaultErrorSanitizer(error);
+  }
+};
+
 export const checkUserIsCurator = async () => {
   const { isValid, userName } = await userSanitizer();
   if (!isValid) return { success: true, isCurator: false };

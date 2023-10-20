@@ -1,6 +1,9 @@
 "use client";
 
-import { promoteUserToCurator } from "@/services/dataBaseServices/curatorServices";
+import {
+  demoteUserFromCurator,
+  promoteUserToCurator,
+} from "@/services/dataBaseServices/curatorServices";
 
 interface ClientActionsProps {
   isCurator: boolean;
@@ -11,7 +14,14 @@ interface ClientActionsProps {
 // TODO: add something to confirm the action (and maybe loading state)
 const ClientActions = ({ isCurator, name }: ClientActionsProps) => {
   if (isCurator)
-    return <button className="btn btn-error">Remove curator access </button>;
+    return (
+      <button
+        className="btn btn-error"
+        onClick={() => demoteUserFromCurator(name)}
+      >
+        Remove curator access
+      </button>
+    );
 
   return (
     <button className="btn btn-info" onClick={() => promoteUserToCurator(name)}>
