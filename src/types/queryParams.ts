@@ -5,3 +5,7 @@ export interface JobListSearchParams {
   curator?: string;
   status?: string;
 }
+
+export interface UserListSearchParams {
+   page?: string ;
+}

@@ -1,26 +1,39 @@
 import { checkUserIsAdmin } from "@/services/dataBaseServices/adminServices";
 import { getUserList } from "@/services/dataBaseServices/userServices";
+import UserListTableAndPagination from "./UserListTableAndPagination";
+import { UserListSearchParams } from "@/types/queryParams";
 
-const UserListPage = async () => {
+interface UserListPageProps {
+  searchParams: UserListSearchParams;
+}
+
+const UserListPage = async ({ searchParams: { page } }: UserListPageProps) => {
   const getAdmin = await checkUserIsAdmin();
 
   if (!getAdmin.success || !getAdmin.isAdmin || getAdmin.admin === undefined)
     return <div>Not authorized</div>;
 
+  const users = await getUserList();
 
-  const userList = await getUserList();
-
-  if (!userList.success) {
+  if (!users.success) {
     return <div>Something went wrong</div>;
   }
   const {
-    data: { jobList, totalPages },
-  } = userList;
+    data: { userList, totalPages },
+  } = users;
 
-  console.log({ jobList, totalPages });
+  console.log({ userList, totalPages });
   return (
     <main>
       <h1>User List</h1>
+      {users.success ? (
+        <UserListTableAndPagination
+          userData={users.data}
+          queryData={{ page }}
+        />
+      ) : (
+        <h2>No users found</h2>
+      )}
     </main>
   );
 };

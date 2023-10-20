@@ -98,7 +98,7 @@ export const getUserList = async (params: GetUserListProps = { page: "1" }) => {
 
     return {
       success: true,
-      data: { jobList: usersToReturn, totalPages: lastPage },
+      data: { userList: usersToReturn, totalPages: lastPage },
     };
   } catch (error) {
     return defaultErrorSanitizer(error);
