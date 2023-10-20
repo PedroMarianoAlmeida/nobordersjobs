@@ -1,7 +1,7 @@
 import Table from "@/components/table/Table";
 import FeedbackInput from "./FeedbackInput";
 
-const UserFeedback = () => {
+const UserFeedback = ({ jobId }: { jobId: number }) => {
   const columnHeaders = [
     "Answer",
     "It is open? 📋",
@@ -19,8 +19,8 @@ const UserFeedback = () => {
       rowYes["Answer"] = "Yes";
       rowNow["Answer"] = "No";
     } else {
-      rowYes[column] = <FeedbackInput column={column} answer="Yes" />;
-      rowNow[column] = <FeedbackInput column={column} answer="No" />;
+      rowYes[column] = <FeedbackInput column={column} answer="Yes" jobId={jobId}/>;
+      rowNow[column] = <FeedbackInput column={column} answer="No" jobId={jobId} />;
     }
   });
 

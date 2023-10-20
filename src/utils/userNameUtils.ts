@@ -5,6 +5,7 @@ interface UserSanitizerSuccess {
   isValid: true;
   email: string;
   userName: string;
+  userId: number;
 }
 
 interface UserSanitizerError {
@@ -27,7 +28,8 @@ export const userSanitizer = async (): Promise<
   const dbUserName = await getUserNameByEmail(email);
   if (dbUserName.success) {
     const userName = dbUserName.user.name;
-    return { isValid: true, email, userName };
+    const userId = dbUserName.user.id;
+    return { isValid: true, email, userName, userId };
     // TODO: Add the username in a cookie to be easy to access it
   } else {
     return { isValid: false, email, userName: null };

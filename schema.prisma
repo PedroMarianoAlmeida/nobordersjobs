@@ -15,6 +15,7 @@ model User {
   createdAt DateTime @default(now())
   curator   Curator?
   admin     Admin?
+  UserFeedbackOnJobs UserFeedbackOnJobs[]
 }
 
 model Curator {
@@ -36,6 +37,7 @@ model Jobs {
    curator  Curator  @relation(fields: [curatorId], references: [id])
    curatorId Int
    isOpen Boolean @default(true)
+   UserFeedbackOnJobs UserFeedbackOnJobs[]
 }
 
 model Admin {
@@ -43,4 +45,16 @@ model Admin {
   name String @unique
   User User @relation(fields: [name], references: [name])
   isSuperAdmin Boolean @default(false)
+}
+
+model UserFeedbackOnJobs {
+  id   Int    @id @default(autoincrement())
+  user User @relation(fields: [userId], references: [id])
+  userId Int
+  job Jobs @relation(fields: [jobId], references: [id])
+  jobId Int
+  isOpen Boolean?
+  isLegit Boolean?
+  isInternational Boolean?
+  @@unique([userId, jobId])
 }

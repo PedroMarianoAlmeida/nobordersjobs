@@ -17,6 +17,7 @@ const JobDetailPage = async ({
     company,
     body,
     isOpen,
+    id: jobId,
     curator: { name: curator },
   } = job.data;
   const bodyParsed = parse(body);
@@ -48,7 +49,7 @@ const JobDetailPage = async ({
             {bodyParsed}
           </div>
           <h2>Your feedback about this job</h2>
-          <UserFeedback />
+          <UserFeedback jobId={jobId}/>
         </div>
       </div>
     </main>
