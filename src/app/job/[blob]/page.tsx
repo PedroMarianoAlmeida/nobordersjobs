@@ -2,6 +2,7 @@ import parse from "html-react-parser";
 import Link from "next/link";
 
 import { getJopPostByBlob } from "@/services/dataBaseServices/jobServices";
+import UserFeedback from "./UserFeedback";
 
 const JobDetailPage = async ({
   params: { blob },
@@ -43,9 +44,11 @@ const JobDetailPage = async ({
             </Link>
           </div>
           {isOpen ? <></> : <h2 className="text-error">Closed Position</h2>}
-          <div className="card card-compact w-96 bg-base-100 shadow-xl border p-5">
+          <div className="card card-compact w-full bg-base-100 shadow-xl border p-5">
             {bodyParsed}
           </div>
+          <h2>Your feedback about this job</h2>
+          <UserFeedback />
         </div>
       </div>
     </main>
