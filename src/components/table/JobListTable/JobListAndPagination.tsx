@@ -1,9 +1,9 @@
 import { Jobs } from "@prisma/client";
 import Link from "next/link";
 
-import JobListPagination from "./JobListPaginations";
 import { JobListSearchParams } from "@/types/queryParams";
 import Table from "@/components/table/Table";
+import Pagination from "@/components/table/Pagination";
 
 interface JobListAndPaginationProps {
   jobData: {
@@ -49,16 +49,22 @@ const JobListAndPagination = ({
       "Last change at": updatedAt.toLocaleDateString("en-us"),
     })
   );
+
+  const paramsExceptPage: [string, string | undefined][] = [
+    ["company", company],
+    ["curator", curator],
+    ["status", status],
+    ["title", title],
+  ];
+
   return (
     <>
       <Table columnHeaders={tableHeaders} rows={dataFormattedForTable} />
-      <JobListPagination
-        page={page}
+      <Pagination
         totalPages={totalPages}
-        title={title}
-        company={company}
-        curator={curator}
-        status={status}
+        page={page ?? "1"}
+        paramsExceptPage={paramsExceptPage}
+        baseUrl="/job/list"
       />
     </>
   );
