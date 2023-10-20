@@ -76,7 +76,7 @@ export const getUserList = async (params: GetUserListProps = { page: "1" }) => {
     const users = await prisma.user.findMany({
       select: {
         name: true,
-        curator: true,
+        curator: { select: { name: true } },
         createdAt: true,
       },
       orderBy: {
