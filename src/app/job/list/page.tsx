@@ -1,14 +1,9 @@
 import { getJobList } from "@/services/dataBaseServices/jobServices";
 import JobListAndPagination from "@/components/table/JobListTable/JobListAndPagination";
 import JobListForm from "@/components/table/JobListTable/JobListForm";
+import { JobListSearchParams } from "@/types/queryParams";
 
-export interface JobListSearchParams {
-  page?: string;
-  title?: string;
-  company?: string;
-  curator?: string;
-  status?: string;
-}
+
 interface JobListPageProps {
   searchParams: JobListSearchParams;
 }

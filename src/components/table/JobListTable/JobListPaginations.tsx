@@ -1,6 +1,7 @@
 import Link from "next/link";
-import { JobListSearchParams } from "../../../app/job/list/page";
 import { Fragment } from "react";
+
+import { JobListSearchParams } from "@/types/queryParams";
 
 interface JobListPaginationProps extends JobListSearchParams {
   totalPages: number;
