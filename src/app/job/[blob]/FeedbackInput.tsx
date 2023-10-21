@@ -45,17 +45,21 @@ const FeedbackInput = ({
   };
 
   return (
-    <input
-      type="checkbox"
-      className={`checkbox ${
-        answer === "Yes" ? "checkbox-success" : "checkbox-error"
-      }`}
-      onChange={handleClick}
-      checked={
-        answer === "Yes" ? propertyToCheck === true : propertyToCheck === false
-      }
-      disabled={sending}
-    />
+    <div className="text-center">
+      <input
+        type="checkbox"
+        className={`checkbox ${
+          answer === "Yes" ? "checkbox-success" : "checkbox-error"
+        }`}
+        onChange={handleClick}
+        checked={
+          answer === "Yes"
+            ? propertyToCheck === true
+            : propertyToCheck === false
+        }
+        disabled={sending}
+      />
+    </div>
   );
 };
 

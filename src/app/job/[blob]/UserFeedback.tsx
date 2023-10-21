@@ -33,10 +33,16 @@ const UserFeedback = async ({
     checkUserFeedback(userFeedbackOnJobs);
 
   const tableHeaders = [
-    { key: "answer", value: "Answer" },
-    { key: "isOpen", value: "It is open? 📋" },
-    { key: "isLegit", value: "It is legit? 🔎" },
-    { key: "isInternational", value: "It is global? 🌎" },
+    { key: "answer", value: <div className="text-center">Answer</div> },
+    { key: "isOpen", value: <div className="text-center">It is open? 📋</div> },
+    {
+      key: "isLegit",
+      value: <div className="text-center">It is legit? 🔎</div>,
+    },
+    {
+      key: "isInternational",
+      value: <div className="text-center">It is global? 🌎</div>,
+    },
   ];
 
   type Row = {
@@ -46,8 +52,8 @@ const UserFeedback = async ({
   const rowNow: Row = {};
   tableHeaders.forEach(({ key }) => {
     if (key === "answer") {
-      rowYes["answer"] = "Yes";
-      rowNow["answer"] = "No";
+      rowYes["answer"] = <div className="text-center">Yes 👍</div>;
+      rowNow["answer"] = <div className="text-center">No 👎</div>;
     } else {
       rowYes[key] = (
         <FeedbackInput
