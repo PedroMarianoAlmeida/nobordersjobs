@@ -128,14 +128,6 @@ export const getJobList = async ({
   const isOpen = possibleStatus.find((s) => s.status === status)?.isOpen;
 
   try {
-    // const totalJobs = await prisma.jobs.count({
-    //   where: {
-    //     title: { contains: title, mode: "insensitive" },
-    //     company: { contains: company, mode: "insensitive" },
-    //     curator: { name: { contains: curator, mode: "insensitive" } },
-    //   },
-    // });
-
     //TO DO: A better way to pagination, the "skip" should match the criteria of the search
     const jobs = await prisma.jobs.findMany({
       where: {
@@ -150,6 +142,13 @@ export const getJobList = async ({
         blob: true,
         updatedAt: true,
         isOpen: true,
+        UserFeedbackOnJobs: {
+          select: {
+            isOpen: true,
+            isLegit: true,
+            isInternational: true,
+          },
+        },
       },
       orderBy: {
         updatedAt: "desc",
@@ -163,10 +162,40 @@ export const getJobList = async ({
 
     const initialIndexToBeInReturn = (pageFormatted - 1) * ELEMENTS_PER_PAGE;
     const finalIndexToBeInReturn = initialIndexToBeInReturn + ELEMENTS_PER_PAGE;
-    const jobsToReturn = [...jobs].slice(
-      initialIndexToBeInReturn,
-      finalIndexToBeInReturn
-    );
+    const jobsToReturn = [...jobs]
+      .slice(initialIndexToBeInReturn, finalIndexToBeInReturn)
+      .map((job) => {
+        const isOpenCount = job.UserFeedbackOnJobs.filter(
+          (feedback) => feedback.isOpen
+        ).length;
+        const isNotOpenCount = job.UserFeedbackOnJobs.filter(
+          (feedback) => !feedback.isOpen
+        ).length;
+
+        const isLegitCount = job.UserFeedbackOnJobs.filter(
+          (feedback) => feedback.isLegit
+        ).length;
+        const isNotLegitCount = job.UserFeedbackOnJobs.filter(
+          (feedback) => !feedback.isLegit
+        ).length;
+
+        const isInternationalCount = job.UserFeedbackOnJobs.filter(
+          (feedback) => feedback.isInternational
+        ).length;
+        const isNotInternationalCount = job.UserFeedbackOnJobs.filter(
+          (feedback) => !feedback.isInternational
+        ).length;
+
+        const feedbackCount = {
+          isOpenCount,
+          isLegitCount,
+          isInternationalCount,
+          isNotOpenCount,
+          isNotLegitCount,
+          isNotInternationalCount,
+        };
+        return { ...job, feedbackCount };
+      });
 
     return {
       success: true,
