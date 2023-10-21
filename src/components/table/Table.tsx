@@ -1,7 +1,10 @@
-import React, { ReactNode } from "react";
+import { ReactNode } from "react";
 
 interface TableProps<T extends string> {
-  columnHeaders: T[];
+  columnHeaders: {
+    key: T;
+    value: ReactNode;
+  }[];
   headerGroups?: ReactNode;
   rows: Record<T, ReactNode>[];
 }
@@ -14,7 +17,7 @@ const Table = ({ columnHeaders, rows, headerGroups }: TableProps<string>) => {
           {headerGroups}
           <tr>
             {columnHeaders.map((header) => (
-              <th key={header}>{header}</th>
+              <th key={header.key}>{header.value}</th>
             ))}
           </tr>
         </thead>
@@ -22,7 +25,7 @@ const Table = ({ columnHeaders, rows, headerGroups }: TableProps<string>) => {
           {rows.map((row, index) => (
             <tr key={index}>
               {columnHeaders.map((header) => (
-                <td key={header}>{row[header]}</td>
+                <td key={header.key}>{row[header.key]}</td>
               ))}
             </tr>
           ))}

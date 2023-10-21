@@ -22,15 +22,19 @@ const UserListTableAndPagination = ({
   userData: { userList, totalPages },
   queryData: { page },
 }: UserListTableAndPaginationProps) => {
-  const tableHeaders = ["Name", "Created at", "Actions"];
+  const tableHeaders = [
+    { key: "name", value: "Name" },
+    { key: "createdAt", value: "Created at" },
+    { key: "actions", value: "Actions" },
+  ];
+
   const dataFormattedForTable = userList.map(
     ({ name, createdAt, curator }) => ({
-      Name: name,
-      "Created at": createdAt.toLocaleDateString("en-us"),
-      Actions: <ClientActions isCurator={curator !== null} name={name} />,
+      name,
+      createdAt: createdAt.toLocaleDateString("en-us"),
+      actions: <ClientActions isCurator={curator !== null} name={name} />,
     })
   );
-
   return (
     <>
       <Table columnHeaders={tableHeaders} rows={dataFormattedForTable} />

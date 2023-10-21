@@ -94,40 +94,40 @@ const JobListAndPagination = ({
   isCurator,
 }: JobListAndPaginationProps) => {
   const tableHeaders = [
-    "Company",
-    "Title",
-    "Open",
-    "Actions",
-    "📋",
-    "🔎",
-    "🌎",
-    "Last change at",
+    { key: "company", value: "Company" },
+    { key: "title", value: "Title" },
+    { key: "curatorOpen", value: "Open" },
+    { key: "actions", value: "Actions" },
+    { key: "userIsOpen", value: "📋" },
+    { key: "userLegitOpen", value: "🔎" },
+    { key: "userIsInternational", value: "🌎" },
+    { key: "lastChange", value: "Last change at" },
   ];
   const dataFormattedForTable = jobList.map(
     ({ title, company, blob, updatedAt, isOpen, feedbackCount }) => ({
-      Company: company,
-      Title: title,
-      Open: isOpen ? "✅" : "❌",
-      Actions: <UserActions blob={blob} isCurator={isCurator} />,
-      "📋": (
+      company,
+      title,
+      curatorOpen: isOpen ? "✅" : "❌",
+      actions: <UserActions blob={blob} isCurator={isCurator} />,
+      userIsOpen: (
         <UserFeedback
           positiveCount={feedbackCount.isOpenCount}
           negativeCount={feedbackCount.isNotOpenCount}
         />
       ),
-      "🔎": (
+      userLegitOpen: (
         <UserFeedback
           positiveCount={feedbackCount.isLegitCount}
           negativeCount={feedbackCount.isNotLegitCount}
         />
       ),
-      "🌎": (
+      userIsInternational: (
         <UserFeedback
           positiveCount={feedbackCount.isInternationalCount}
           negativeCount={feedbackCount.isNotInternationalCount}
         />
       ),
-      "Last change at": updatedAt.toLocaleDateString("en-us"),
+      lastChange: updatedAt.toLocaleDateString("en-us"),
     })
   );
 
