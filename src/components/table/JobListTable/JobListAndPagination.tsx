@@ -4,6 +4,7 @@ import Link from "next/link";
 import { JobListSearchParams } from "@/types/queryParams";
 import Table from "@/components/table/Table";
 import Pagination from "@/components/table/Pagination";
+import Tooltip from "@/components/Tooltip";
 
 const UserActions = ({
   blob,
@@ -31,10 +32,8 @@ const HeaderGroup = () => (
     <th></th>
     <th></th>
     <th colSpan={3} className="text-center bg-gray-700">
-      {/*TODO: Create my own tooltip that accept JSX*/}
-      <div
-        className="tooltip tooltip-bottom"
-        data-tip={
+      <Tooltip
+        content={
           <ul>
             <li>📋 = Open</li>
             <li>🔎 = Legit</li>
@@ -46,7 +45,7 @@ const HeaderGroup = () => (
         <span className="underline">
           User Feedback<sup>*</sup>
         </span>
-      </div>
+      </Tooltip>
     </th>
     <th></th>
   </tr>
