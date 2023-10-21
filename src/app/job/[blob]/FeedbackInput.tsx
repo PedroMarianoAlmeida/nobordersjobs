@@ -21,19 +21,27 @@ const FeedbackInput = ({
   isLegit,
   isInternational,
 }: FeedbackInputProps) => {
+  // --- All this is looking harder than should ----
   const mapColumnsToValue = {
-    "It is open? 📋": isOpen,
-    "It is legit? 🔎": isLegit,
-    "It is global? 🌎": isInternational,
-  };
-  
-  const handleClick = async () => {
-    const res = await giveFeedbackOnJob({ jobId });
+    "It is open? 📋": { isOpen },
+    "It is legit? 🔎": { isLegit },
+    "It is global? 🌎": { isInternational },
   };
 
-  const valueToCheck =
+  const variableToCheck =
     mapColumnsToValue[column as keyof typeof mapColumnsToValue];
 
+  const propertyToCheck = Object.keys(variableToCheck)[0];
+  const valueToCheck = Object.values(variableToCheck)[0];
+
+  const handleClick = async () => {
+    const res = await giveFeedbackOnJob({
+      jobId,
+      [propertyToCheck]:
+        valueToCheck === true ? null : answer === "Yes" ? true : false,
+    });
+  };
+// ----------------------------------------------------------------
   return (
     <input
       type="checkbox"

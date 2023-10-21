@@ -6,24 +6,31 @@ import { userSanitizer } from "@/utils/userNameUtils";
 
 interface GiveFeedbackOnJob {
   jobId: number;
+  isOpen?: boolean | null;
+  isLegit?: boolean | null;
+  isInternational?: boolean | null;
 }
-export const giveFeedbackOnJob = async ({ jobId }: GiveFeedbackOnJob) => {
+export const giveFeedbackOnJob = async ({
+  jobId,
+  isOpen,
+  isLegit,
+  isInternational,
+}: GiveFeedbackOnJob) => {
   const user = await userSanitizer();
   if (!user.isValid) throw new Error("You are not logged in");
   if (user.userId === null) throw new Error("You are not logged in");
 
   const { userId } = user;
-  // TO DO: Read the feedback on getJopPostByBlob and add interactivity here
   try {
     const feedback = await prisma.userFeedbackOnJobs.upsert({
       where: { userId_jobId: { userId, jobId } },
-      update: { isInternational: true, isLegit: undefined, isOpen: true },
+      update: { isInternational, isLegit, isOpen },
       create: {
         userId: userId,
         jobId: jobId,
-        isInternational: true,
-        isLegit: undefined,
-        isOpen: true,
+        isInternational,
+        isLegit,
+        isOpen,
       },
     });
 
