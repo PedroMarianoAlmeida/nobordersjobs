@@ -4,8 +4,8 @@ import Table from "@/components/table/Table";
 import FeedbackInput from "./FeedbackInput";
 import { use } from "react";
 
-const checkUserFeedback = (userFeedbackOnJobs: UserFeedbackOnJobs[]) => {
-  if (userFeedbackOnJobs.length === 0)
+const checkUserFeedback = (userFeedbackOnJobs: UserFeedbackOnJobs[] | null) => {
+  if (userFeedbackOnJobs === null || userFeedbackOnJobs.length === 0)
     return {
       isOpen: undefined,
       isLegit: undefined,
@@ -17,15 +17,14 @@ const checkUserFeedback = (userFeedbackOnJobs: UserFeedbackOnJobs[]) => {
 
 interface UserFeedbackProps {
   jobId: number;
-  userFeedbackOnJobs: UserFeedbackOnJobs[];
+  userFeedbackOnJobs: UserFeedbackOnJobs[] | null;
 }
-
 
 const UserFeedback = ({ jobId, userFeedbackOnJobs }: UserFeedbackProps) => {
   const { isOpen, isLegit, isInternational } =
     checkUserFeedback(userFeedbackOnJobs);
 
-  const columnHeaders = [
+    const columnHeaders = [
     "Answer",
     "It is open? 📋",
     "It is legit? 🔎",

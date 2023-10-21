@@ -88,6 +88,7 @@ export const editJob = async (post: {
 
 export const getJopPostByBlob = async (blob: string) => {
   const user = await userSanitizer();
+
   try {
     const job = await prisma.jobs.findUnique({
       where: {
@@ -95,10 +96,13 @@ export const getJopPostByBlob = async (blob: string) => {
       },
       include: {
         curator: true,
-        UserFeedbackOnJobs: { where: { userId: user.userId ?? undefined } },
+        UserFeedbackOnJobs: user.userId
+          ? { where: { userId: user.userId } }
+          : false,
       },
     });
     if (job === null) throw new Error("No jobpost found");
+    if (job.UserFeedbackOnJobs === undefined) job.UserFeedbackOnJobs = [];
     return {
       success: true,
       data: job,
