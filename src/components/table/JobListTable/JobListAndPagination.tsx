@@ -30,7 +30,7 @@ const HeaderGroup = () => (
     <th></th>
     <th></th>
     <th></th>
-    <th colSpan={3}>
+    <th colSpan={3} className="text-center bg-gray-700">
       {/*TODO: Create my own tooltip that accept JSX*/}
       <div
         className="tooltip tooltip-bottom"
@@ -50,6 +50,23 @@ const HeaderGroup = () => (
     </th>
     <th></th>
   </tr>
+);
+
+interface UserFeedbackProps {
+  positiveCount: number;
+  negativeCount: number;
+}
+const UserFeedback = ({ positiveCount, negativeCount }: UserFeedbackProps) => (
+  <div className="flex gap-3">
+    <div>
+      <span>👍</span>
+      {positiveCount}
+    </div>
+    <div>
+      <span>👎</span>
+      {negativeCount}
+    </div>
+  </div>
 );
 
 interface jobListWithFeedback
@@ -93,9 +110,24 @@ const JobListAndPagination = ({
       Title: title,
       Open: isOpen ? "✅" : "❌",
       Actions: <UserActions blob={blob} isCurator={isCurator} />,
-      "📋": "",
-      "🔎": "",
-      "🌎": "",
+      "📋": (
+        <UserFeedback
+          positiveCount={feedbackCount.isOpenCount}
+          negativeCount={feedbackCount.isNotOpenCount}
+        />
+      ),
+      "🔎": (
+        <UserFeedback
+          positiveCount={feedbackCount.isLegitCount}
+          negativeCount={feedbackCount.isNotLegitCount}
+        />
+      ),
+      "🌎": (
+        <UserFeedback
+          positiveCount={feedbackCount.isInternationalCount}
+          negativeCount={feedbackCount.isNotInternationalCount}
+        />
+      ),
       "Last change at": updatedAt.toLocaleDateString("en-us"),
     })
   );
