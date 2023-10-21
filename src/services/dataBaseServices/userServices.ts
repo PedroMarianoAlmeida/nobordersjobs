@@ -66,9 +66,9 @@ export const postNewUserName = async (username: string) => {
 interface GetUserListProps {
   page?: string;
 }
-export const getUserList = async (params: GetUserListProps = { page: "1" }) => {
+export const getUserList = async (params: GetUserListProps) => {
   const { page } = params;
-  const pageFormatted = Number(page);
+  const pageFormatted = Number(page ?? 1);
 
   try {
     const users = await prisma.user.findMany({
@@ -81,7 +81,6 @@ export const getUserList = async (params: GetUserListProps = { page: "1" }) => {
         createdAt: "desc",
       },
     });
-
     const totalUsers = users.length;
     const lastPage = Math.ceil(totalUsers / ELEMENTS_PER_PAGE);
 

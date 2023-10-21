@@ -14,7 +14,6 @@ const UserListPage = async ({ searchParams: { page } }: UserListPageProps) => {
     return <div>Not authorized</div>;
 
   const users = await getUserList({ page });
-
   if (!users.success) {
     return <div>Something went wrong</div>;
   }
@@ -22,7 +21,7 @@ const UserListPage = async ({ searchParams: { page } }: UserListPageProps) => {
   return (
     <main className="flex flex-col gap-3 items-center">
       <h1>User List</h1>
-      {users.success ? (
+      {users.success && users.data.userList.length > 0 ? (
         <UserListTableAndPagination
           userData={users.data}
           queryData={{ page }}
