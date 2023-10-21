@@ -21,7 +21,7 @@ const FeedbackInput = ({
   isLegit,
   isInternational,
 }: FeedbackInputProps) => {
-  // --- All this is looking harder than should ----
+
   const mapColumnsToValue = {
     "It is open? 📋": { isOpen },
     "It is legit? 🔎": { isLegit },
@@ -41,7 +41,7 @@ const FeedbackInput = ({
         valueToCheck === true ? null : answer === "Yes" ? true : false,
     });
   };
-// ----------------------------------------------------------------
+
   return (
     <input
       type="checkbox"

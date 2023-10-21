@@ -2,7 +2,7 @@ import { UserFeedbackOnJobs } from "@prisma/client";
 
 import Table from "@/components/table/Table";
 import FeedbackInput from "./FeedbackInput";
-import { use } from "react";
+import { userSanitizer } from "@/utils/userNameUtils";
 
 const checkUserFeedback = (userFeedbackOnJobs: UserFeedbackOnJobs[] | null) => {
   if (userFeedbackOnJobs === null || userFeedbackOnJobs.length === 0)
@@ -20,11 +20,19 @@ interface UserFeedbackProps {
   userFeedbackOnJobs: UserFeedbackOnJobs[] | null;
 }
 
-const UserFeedback = ({ jobId, userFeedbackOnJobs }: UserFeedbackProps) => {
+const UserFeedback = async ({
+  jobId,
+  userFeedbackOnJobs,
+}: UserFeedbackProps) => {
+  const user = await userSanitizer();
+
+  if (user.userName === null)
+    return <h2>Only logged users can give feedback</h2>;
+    
   const { isOpen, isLegit, isInternational } =
     checkUserFeedback(userFeedbackOnJobs);
 
-    const columnHeaders = [
+  const columnHeaders = [
     "Answer",
     "It is open? 📋",
     "It is legit? 🔎",
