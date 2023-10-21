@@ -11,40 +11,29 @@ interface FeedbackInputProps {
   jobId: number;
 
   //Only one value is read , so it is possible refactor this to receive only one of this props
-  isOpen?: boolean | null;
-  isLegit?: boolean | null;
-  isInternational?: boolean | null;
+  feedback: {
+    isOpen?: boolean | null;
+    isLegit?: boolean | null;
+    isInternational?: boolean | null;
+  };
 }
 
 const FeedbackInput = ({
   column,
   answer,
   jobId,
-  isOpen,
-  isLegit,
-  isInternational,
+  feedback,
 }: FeedbackInputProps) => {
   const [sending, setSending] = useState(false);
   const router = useRouter();
 
-  const mapColumnsToValue = {
-    "It is open? 📋": { isOpen },
-    "It is legit? 🔎": { isLegit },
-    "It is global? 🌎": { isInternational },
-  };
-
-  const variableToCheck =
-    mapColumnsToValue[column as keyof typeof mapColumnsToValue];
-
-  const propertyToCheck = Object.keys(variableToCheck)[0];
-  const valueToCheck = Object.values(variableToCheck)[0];
-
+  const propertyToCheck = feedback[column as keyof typeof feedback];
   const handleClick = async () => {
     setSending(true);
     const res = await giveFeedbackOnJob({
       jobId,
-      [propertyToCheck]:
-        valueToCheck === true ? null : answer === "Yes" ? true : false,
+      [column]:
+        propertyToCheck === true ? null : answer === "Yes" ? true : false,
     });
 
     if (!res.success) {
@@ -63,7 +52,7 @@ const FeedbackInput = ({
       }`}
       onChange={handleClick}
       checked={
-        answer === "Yes" ? valueToCheck === true : valueToCheck === false
+        answer === "Yes" ? propertyToCheck === true : propertyToCheck === false
       }
       disabled={sending}
     />

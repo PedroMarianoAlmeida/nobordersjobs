@@ -28,15 +28,15 @@ const UserFeedback = async ({
 
   if (user.userName === null)
     return <h2>Only logged users can give feedback</h2>;
-    
+
   const { isOpen, isLegit, isInternational } =
     checkUserFeedback(userFeedbackOnJobs);
 
-  const columnHeaders = [
-    "Answer",
-    "It is open? 📋",
-    "It is legit? 🔎",
-    "It is global? 🌎",
+  const tableHeaders = [
+    { key: "answer", value: "Answer" },
+    { key: "isOpen", value: "It is open? 📋" },
+    { key: "isLegit", value: "It is legit? 🔎" },
+    { key: "isInternational", value: "It is global? 🌎" },
   ];
 
   type Row = {
@@ -44,35 +44,31 @@ const UserFeedback = async ({
   };
   const rowYes: Row = {};
   const rowNow: Row = {};
-  columnHeaders.forEach((column) => {
-    if (column === "Answer") {
-      rowYes["Answer"] = "Yes";
-      rowNow["Answer"] = "No";
+  tableHeaders.forEach(({ key }) => {
+    if (key === "answer") {
+      rowYes["answer"] = "Yes";
+      rowNow["answer"] = "No";
     } else {
-      rowYes[column] = (
+      rowYes[key] = (
         <FeedbackInput
-          column={column}
+          column={key}
           answer="Yes"
           jobId={jobId}
-          isOpen={isOpen}
-          isLegit={isLegit}
-          isInternational={isInternational}
+          feedback={{ isOpen, isLegit, isInternational }}
         />
       );
-      rowNow[column] = (
+      rowNow[key] = (
         <FeedbackInput
-          column={column}
+          column={key}
           answer="No"
           jobId={jobId}
-          isOpen={isOpen}
-          isLegit={isLegit}
-          isInternational={isInternational}
+          feedback={{ isOpen, isLegit, isInternational }}
         />
       );
     }
   });
 
-  return <Table columnHeaders={columnHeaders} rows={[rowYes, rowNow]} />;
+  return <Table columnHeaders={tableHeaders} rows={[rowYes, rowNow]} />;
 };
 
 export default UserFeedback;
