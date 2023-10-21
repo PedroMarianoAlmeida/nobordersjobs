@@ -4,7 +4,6 @@ import Link from "next/link";
 import { JobListSearchParams } from "@/types/queryParams";
 import Table from "@/components/table/Table";
 import Pagination from "@/components/table/Pagination";
-import Tooltip from "@/components/Tooltip";
 
 const UserActions = ({
   blob,
@@ -32,20 +31,7 @@ const HeaderGroup = () => (
     <th></th>
     <th></th>
     <th colSpan={3} className="text-center bg-gray-700">
-      <Tooltip
-        content={
-          <ul>
-            <li>📋 = Open</li>
-            <li>🔎 = Legit</li>
-            <li>🌎 = International</li>
-            <li>👍 = Yes</li> <li>👎 = No</li>
-          </ul>
-        }
-      >
-        <span className="underline">
-          User Feedback<sup>*</sup>
-        </span>
-      </Tooltip>
+      📋 (Open) / 🔎 (Legit) / 🌎 (International)
     </th>
     <th></th>
   </tr>
@@ -70,7 +56,7 @@ interface UserFeedbackProps {
   negativeCount: number;
 }
 const UserFeedback = ({ positiveCount, negativeCount }: UserFeedbackProps) => (
-  <div className="flex gap-3">
+  <div className="flex gap-3 justify-center">
     <div>
       <span>👍</span>
       {positiveCount}
@@ -114,15 +100,17 @@ const JobListAndPagination = ({
     { key: "actions", value: "Actions" },
     {
       key: "userIsOpen",
-      value: <UserFeedbackHeader content="📋" tooltipText="Is is still open" />,
+      value: <UserFeedbackHeader content="📋" tooltipText="Is it still open" />,
     },
     {
       key: "userLegitOpen",
-      value: <UserFeedbackHeader content="🔎" tooltipText="Is is legit" />,
+      value: <UserFeedbackHeader content="🔎" tooltipText="Is it legit" />,
     },
     {
       key: "userIsInternational",
-      value: <UserFeedbackHeader content="🌎" tooltipText="Is is Global" />,
+      value: (
+        <UserFeedbackHeader content="🌎" tooltipText="Is it really global" />
+      ),
     },
     { key: "lastChange", value: "Last change at" },
   ];
