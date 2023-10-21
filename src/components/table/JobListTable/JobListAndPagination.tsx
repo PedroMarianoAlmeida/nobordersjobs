@@ -51,6 +51,20 @@ const HeaderGroup = () => (
   </tr>
 );
 
+const UserFeedbackHeader = ({
+  content,
+  tooltipText,
+}: {
+  content: string;
+  tooltipText: string;
+}) => (
+  <div className="text-center text-xl cursor-pointer">
+    <div className="tooltip" data-tip={tooltipText}>
+      {content}
+    </div>
+  </div>
+);
+
 interface UserFeedbackProps {
   positiveCount: number;
   negativeCount: number;
@@ -98,9 +112,18 @@ const JobListAndPagination = ({
     { key: "title", value: "Title" },
     { key: "curatorOpen", value: "Open" },
     { key: "actions", value: "Actions" },
-    { key: "userIsOpen", value: "📋" },
-    { key: "userLegitOpen", value: "🔎" },
-    { key: "userIsInternational", value: "🌎" },
+    {
+      key: "userIsOpen",
+      value: <UserFeedbackHeader content="📋" tooltipText="Is is still open" />,
+    },
+    {
+      key: "userLegitOpen",
+      value: <UserFeedbackHeader content="🔎" tooltipText="Is is legit" />,
+    },
+    {
+      key: "userIsInternational",
+      value: <UserFeedbackHeader content="🌎" tooltipText="Is is Global" />,
+    },
     { key: "lastChange", value: "Last change at" },
   ];
   const dataFormattedForTable = jobList.map(
