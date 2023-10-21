@@ -1,5 +1,8 @@
 "use client";
 
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
 import { giveFeedbackOnJob } from "@/services/dataBaseServices/userFeedbackOnJobsServices";
 
 interface FeedbackInputProps {
@@ -21,6 +24,8 @@ const FeedbackInput = ({
   isLegit,
   isInternational,
 }: FeedbackInputProps) => {
+  const [sending, setSending] = useState(false);
+  const router = useRouter();
 
   const mapColumnsToValue = {
     "It is open? 📋": { isOpen },
@@ -35,11 +40,19 @@ const FeedbackInput = ({
   const valueToCheck = Object.values(variableToCheck)[0];
 
   const handleClick = async () => {
+    setSending(true);
     const res = await giveFeedbackOnJob({
       jobId,
       [propertyToCheck]:
         valueToCheck === true ? null : answer === "Yes" ? true : false,
     });
+
+    if (!res.success) {
+      alert("Something went wrong");
+    } else {
+      router.refresh();
+    }
+    setSending(false);
   };
 
   return (
@@ -52,6 +65,7 @@ const FeedbackInput = ({
       checked={
         answer === "Yes" ? valueToCheck === true : valueToCheck === false
       }
+      disabled={sending}
     />
   );
 };
