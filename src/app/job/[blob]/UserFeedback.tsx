@@ -1,7 +1,30 @@
+import { UserFeedbackOnJobs } from "@prisma/client";
+
 import Table from "@/components/table/Table";
 import FeedbackInput from "./FeedbackInput";
+import { use } from "react";
 
-const UserFeedback = ({ jobId }: { jobId: number }) => {
+const checkUserFeedback = (userFeedbackOnJobs: UserFeedbackOnJobs[]) => {
+  if (userFeedbackOnJobs.length === 0)
+    return {
+      isOpen: undefined,
+      isLegit: undefined,
+      isInternational: undefined,
+    };
+  const { isOpen, isLegit, isInternational } = userFeedbackOnJobs[0];
+  return { isOpen, isLegit, isInternational };
+};
+
+interface UserFeedbackProps {
+  jobId: number;
+  userFeedbackOnJobs: UserFeedbackOnJobs[];
+}
+
+
+const UserFeedback = ({ jobId, userFeedbackOnJobs }: UserFeedbackProps) => {
+  const { isOpen, isLegit, isInternational } =
+    checkUserFeedback(userFeedbackOnJobs);
+
   const columnHeaders = [
     "Answer",
     "It is open? 📋",
@@ -19,8 +42,26 @@ const UserFeedback = ({ jobId }: { jobId: number }) => {
       rowYes["Answer"] = "Yes";
       rowNow["Answer"] = "No";
     } else {
-      rowYes[column] = <FeedbackInput column={column} answer="Yes" jobId={jobId}/>;
-      rowNow[column] = <FeedbackInput column={column} answer="No" jobId={jobId} />;
+      rowYes[column] = (
+        <FeedbackInput
+          column={column}
+          answer="Yes"
+          jobId={jobId}
+          isOpen={isOpen}
+          isLegit={isLegit}
+          isInternational={isInternational}
+        />
+      );
+      rowNow[column] = (
+        <FeedbackInput
+          column={column}
+          answer="No"
+          jobId={jobId}
+          isOpen={isOpen}
+          isLegit={isLegit}
+          isInternational={isInternational}
+        />
+      );
     }
   });
 

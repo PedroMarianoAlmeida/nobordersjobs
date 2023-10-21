@@ -6,6 +6,7 @@ import { ELEMENTS_PER_PAGE } from "@/utils/constants";
 import { checkUserIsCurator } from "./curatorServices";
 import { JobListSearchParams } from "@/types/queryParams";
 import { prisma } from "@/utils/prismaClient";
+import { userSanitizer } from "@/utils/userNameUtils";
 
 export const postNewJob = async (post: {
   title: string;
@@ -86,6 +87,7 @@ export const editJob = async (post: {
 };
 
 export const getJopPostByBlob = async (blob: string) => {
+  const user = await userSanitizer();
   try {
     const job = await prisma.jobs.findUnique({
       where: {
@@ -93,9 +95,9 @@ export const getJopPostByBlob = async (blob: string) => {
       },
       include: {
         curator: true,
+        UserFeedbackOnJobs: { where: { userId: user.userId ?? undefined } },
       },
     });
-
     if (job === null) throw new Error("No jobpost found");
     return {
       success: true,

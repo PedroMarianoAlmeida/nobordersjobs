@@ -17,19 +17,18 @@ export const giveFeedbackOnJob = async ({ jobId }: GiveFeedbackOnJob) => {
   try {
     const feedback = await prisma.userFeedbackOnJobs.upsert({
       where: { userId_jobId: { userId, jobId } },
-      update: { isInternational: true, isLegit: false, isOpen: true },
+      update: { isInternational: true, isLegit: undefined, isOpen: true },
       create: {
         userId: userId,
         jobId: jobId,
         isInternational: true,
-        isLegit: false,
+        isLegit: undefined,
         isOpen: true,
       },
     });
 
     if (feedback === null) throw new Error("Error inserting new feedback");
     return { success: true };
-
   } catch (error) {
     return defaultErrorSanitizer(error);
   }

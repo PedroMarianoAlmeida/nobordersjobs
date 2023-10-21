@@ -12,6 +12,7 @@ interface UserSanitizerError {
   isValid: false;
   email: string | null;
   userName: string | null;
+  userId: number | null;
 }
 
 //With this types, always than isValid is true, the types of email and userName are defined
@@ -22,7 +23,7 @@ export const userSanitizer = async (): Promise<
   const email = session?.user?.email;
 
   if (email === undefined || email === null) {
-    return { isValid: false, email: null, userName: null };
+    return { isValid: false, email: null, userName: null, userId: null };
   }
 
   const dbUserName = await getUserNameByEmail(email);
@@ -32,7 +33,7 @@ export const userSanitizer = async (): Promise<
     return { isValid: true, email, userName, userId };
     // TODO: Add the username in a cookie to be easy to access it
   } else {
-    return { isValid: false, email, userName: null };
+    return { isValid: false, email, userName: null, userId: null };
   }
 };
 
