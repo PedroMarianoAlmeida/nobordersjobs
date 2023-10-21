@@ -24,6 +24,34 @@ const UserActions = ({
   </div>
 );
 
+const HeaderGroup = () => (
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th></th>
+    <th colSpan={3}>
+      {/*TODO: Create my own tooltip that accept JSX*/}
+      <div
+        className="tooltip tooltip-bottom"
+        data-tip={
+          <ul>
+            <li>📋 = Open</li>
+            <li>🔎 = Legit</li>
+            <li>🌎 = International</li>
+            <li>👍 = Yes</li> <li>👎 = No</li>
+          </ul>
+        }
+      >
+        <span className="underline">
+          User Feedback<sup>*</sup>
+        </span>
+      </div>
+    </th>
+    <th></th>
+  </tr>
+);
+
 interface jobListWithFeedback
   extends Pick<Jobs, "company" | "title" | "blob" | "updatedAt" | "isOpen"> {
   feedbackCount: {
@@ -54,6 +82,9 @@ const JobListAndPagination = ({
     "Title",
     "Open",
     "Actions",
+    "📋",
+    "🔎",
+    "🌎",
     "Last change at",
   ];
   const dataFormattedForTable = jobList.map(
@@ -62,6 +93,9 @@ const JobListAndPagination = ({
       Title: title,
       Open: isOpen ? "✅" : "❌",
       Actions: <UserActions blob={blob} isCurator={isCurator} />,
+      "📋": "",
+      "🔎": "",
+      "🌎": "",
       "Last change at": updatedAt.toLocaleDateString("en-us"),
     })
   );
@@ -75,7 +109,11 @@ const JobListAndPagination = ({
 
   return (
     <>
-      <Table columnHeaders={tableHeaders} rows={dataFormattedForTable} />
+      <Table
+        columnHeaders={tableHeaders}
+        rows={dataFormattedForTable}
+        headerGroups={<HeaderGroup />}
+      />
       <Pagination
         totalPages={totalPages}
         page={page ?? "1"}
