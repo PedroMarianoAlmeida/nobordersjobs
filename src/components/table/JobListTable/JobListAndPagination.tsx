@@ -12,7 +12,7 @@ const UserActions = ({
   blob: string;
   isCurator?: boolean;
 }) => (
-  <div className="flex gap-2">
+  <div className="flex gap-2 flex justify-center">
     <Link href={`/job/${blob}`}>
       <span className="underline">See</span>
     </Link>
@@ -45,7 +45,7 @@ const UserFeedbackHeader = ({
   tooltipText: string;
 }) => (
   <div className="text-center text-xl cursor-pointer">
-    <div className="tooltip" data-tip={tooltipText}>
+    <div className="tooltip" data-tip={tooltipText + " (user info)"}>
       {content}
     </div>
   </div>
@@ -96,8 +96,17 @@ const JobListAndPagination = ({
   const tableHeaders = [
     { key: "company", value: "Company" },
     { key: "title", value: "Title" },
-    { key: "curatorOpen", value: "Open" },
-    { key: "actions", value: "Actions" },
+    {
+      key: "curatorOpen",
+      value: (
+        <div className="text-center cursor-pointer">
+          <div className="tooltip" data-tip="Curator info">
+            Open
+          </div>
+        </div>
+      ),
+    },
+    { key: "actions", value: <div className="text-center">Actions</div> },
     {
       key: "userIsOpen",
       value: <UserFeedbackHeader content="📋" tooltipText="Is it still open" />,
@@ -118,7 +127,7 @@ const JobListAndPagination = ({
     ({ title, company, blob, updatedAt, isOpen, feedbackCount }) => ({
       company,
       title,
-      curatorOpen: isOpen ? "✅" : "❌",
+      curatorOpen: <div className="text-center">{isOpen ? "✅" : "❌"}</div>,
       actions: <UserActions blob={blob} isCurator={isCurator} />,
       userIsOpen: (
         <UserFeedback
