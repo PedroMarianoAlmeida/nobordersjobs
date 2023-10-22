@@ -4,6 +4,11 @@
 A plataform to find jobs global and remote jobs
 
 Running in production [here](https://www.nobordersjobs.com/)
+
+## License
+
+[MIT](https://github.com/PedroMarianoAlmeida/nobordersjobs/blob/main/LICENSE)
+
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file (all in .env.example)
