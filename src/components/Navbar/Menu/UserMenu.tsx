@@ -1,7 +1,7 @@
 "use client";
 import { signIn, signOut, useSession } from "next-auth/react";
 import { useState } from "react";
-import PostJobButton from "./CuratorActionsMenu";
+import PostJobButton from "../CuratorActionsMenu";
 
 const UserMenu = () => {
   const { data: session } = useSession();

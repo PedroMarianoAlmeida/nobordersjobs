@@ -1,7 +1,6 @@
 import Link from "next/link";
 
-import UserMenu from "./UserMenu";
-import EveryoneMenu from "./EveryoneMenu";
+import Menu from "./Menu";
 
 const NavBar = () => {
   return (
@@ -14,10 +13,7 @@ const NavBar = () => {
         </Link>
       </div>
       <div className="flex-none">
-        <div className="flex gap-5">
-          <UserMenu />
-          <EveryoneMenu />
-        </div>
+        <Menu />
       </div>
     </div>
   );
