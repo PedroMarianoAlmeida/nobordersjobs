@@ -1,15 +1,16 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 
-const EveryoneMenu = () => {
-  const [isOpen, setIsOpen] = useState(false);
+import { MenuChildProps } from ".";
+const EveryoneMenu = ({ menuState, setMenuState }: MenuChildProps) => {
   return (
     <div className="relative">
       <button
         className="btn btn-square btn-ghost"
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() =>
+          setMenuState((prev) => (prev === "everyone" ? null : "everyone"))
+        }
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -26,10 +27,11 @@ const EveryoneMenu = () => {
         </svg>
       </button>
 
-      {isOpen && (
+      {menuState === "everyone" && (
         <ul
           tabIndex={0}
           className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-primary rounded-box absolute top-10 right-0 w-28 flex flex-col items-center"
+          onMouseLeave={() => setMenuState(null)}
         >
           <li>
             <Link href="/">
